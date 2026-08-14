@@ -1,0 +1,14 @@
+# Documentos internos / borradores del proyecto — nunca deben publicarse
+*.pdf
+*.docx
+
+# Herramientas de build locales (no necesarias para servir el sitio)
+package.json
+package-lock.json
+tailwind.config.js
+tailwind-input.css
+node_modules
+
+# Secretos / config local
+.env*
+.vercel

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drone-SAR · Diario de tareas</title>
+<meta name="description" content="Registro cronológico del trabajo realizado en Drone-SAR, TFG de Ingeniería de Telecomunicaciones (UC3M): un dron autónomo de búsqueda y rescate con IA a bordo.">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="tailwind.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-white text-slate-700 font-body antialiased">
+
+<!-- NAV -->
+<header id="site-nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between h-16 md:h-20">
+    <a href="index.html#top" class="flex items-center gap-2 font-display font-semibold text-lg tracking-tight text-white">
+      <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent/15 border border-accent/40 text-accent">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+      </span>
+      Drone&#8209;SAR
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+      <a href="index.html#que-es" class="nav-link">Qué es</a>
+      <a href="journal.html" class="nav-link nav-link--active">Diario</a>
+      <a href="index.html#ayuda" class="nav-link">Cómo ayudar</a>
+    </nav>
+
+    <a href="index.html#ayuda"
+       class="hidden md:inline-flex items-center gap-2 rounded-full bg-accent hover:bg-accent-dark transition-colors px-5 py-2.5 text-sm font-semibold text-navy-950 shadow-lg shadow-accent/20">
+      Quiero ayudar
+    </a>
+
+    <button id="menu-btn" aria-label="Abrir menú" class="md:hidden text-white p-2">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+
+  <!-- mobile menu -->
+  <div id="mobile-menu" class="md:hidden hidden bg-navy-950/98 backdrop-blur border-t border-white/10">
+    <nav class="flex flex-col px-6 py-4 gap-4 text-slate-200 font-medium">
+      <a href="index.html#que-es" class="mobile-link">Qué es</a>
+      <a href="journal.html" class="mobile-link">Diario</a>
+      <a href="index.html#ayuda" class="mobile-link">Cómo ayudar</a>
+      <a href="index.html#ayuda" class="mt-2 inline-flex justify-center items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-navy-950">Quiero ayudar</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HEADER BAND -->
+<section class="relative bg-navy-950 pt-32 pb-10 md:pt-40 md:pb-12">
+  <div class="max-w-5xl mx-auto px-6">
+    <p class="kicker">TFG · Ingeniería de Telecomunicaciones · UC3M</p>
+    <h1 class="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-white mt-4 leading-tight">
+      Diario de tareas
+    </h1>
+    <p class="mt-4 text-slate-300 max-w-2xl leading-relaxed">
+      Registro cronológico del trabajo realizado en el desarrollo del sistema de búsqueda y rescate basado en UAV.
+    </p>
+    <div class="j-statusbar mt-6">
+      <span class="j-live"><span class="pulse-dot"></span>SISTEMA OPERATIVO</span>
+      <span>· ÚLT. ACTUALIZACIÓN: 14 AGO 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<section class="relative bg-navy-900 border-t border-white/5 py-7">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="j-stats">
+      <div class="j-stat"><b>24</b><span>Registros</span></div>
+      <div class="j-stat"><b>33</b><span>Días documentados</span></div>
+      <div class="j-stat"><b>3</b><span>Repos en GitHub</span></div>
+      <div class="j-stat"><b>7</b><span>Hitos alcanzados</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTADO ACTUAL -->
+<section class="relative bg-slate-50 py-14 md:py-16">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="j-estado">
+      <div class="j-estado-head">
+        <span class="j-estado-date">Situación actual · 14 ago 2026</span>
+        <h2>Dónde está el proyecto ahora</h2>
+      </div>
+      <p>El proyecto tiene ya resuelta toda la base sobre la que se construirá el resto del sistema. Está cerrada la parte normativa —certificado de piloto A1/A3 y número de operador AESA— y el acceso a un espacio de vuelo seguro, gracias a la federación en el club Alas de Galapagar, cuya licencia de socio incluye el seguro obligatorio. He realizado además un primer vuelo de referencia, cuyo registro GPS me sirve para planificar misiones en simulación.</p>
+      <p>En el plano técnico, la infraestructura extremo a extremo está operativa. La adquisición de datos en el nodo <i>edge</i> se ha organizado por dominios independientes (ambiental, sistema, vuelo y detección), cada uno como un proceso propio con su buffer local en SQLite y publicando bajo una estructura jerárquica de topics <code class="j-code">sar/{dron_id}/{dominio}</code>, con almacenamiento intermedio local para no perder datos ante cortes de red. El sensor ambiental BME680 sobre la Raspberry Pi 5 alimenta ya el dominio ambiental, cuyas lecturas llegan por MQTT al servidor en la nube (AWS EC2 con Mosquitto e InfluxDB). El dominio y los servidores web están en marcha, y tanto las páginas como los servicios dinámicos (API REST e InfluxDB) se sirven ya por HTTPS con certificado propio, accediéndose a estos últimos a través de un <i>reverse proxy</i> en nginx que permite mantener cerrados sus puertos al exterior.</p>
+      <p>En cuanto al vuelo, he llevado el control autónomo de la simulación a la Raspberry Pi: la Pi comanda el dron simulado (Mission Planner + ArduPilot SITL) por MAVLink a través de la red. Sobre esa base he montado el control por MQTT —un publicador en el EC2 y un receptor en la Pi que traduce las órdenes a MAVLink— y una API REST con una página de botones para teleoperar el dron (armar, despegar, aterrizar, RTL, misión) desde el navegador, ya validada contra el simulador. Este panel se ha ampliado además con un selector que permite elegir a qué dron (<code class="j-code">dron-01</code> / <code class="j-code">dron-02</code>) se dirige cada comando, y con nuevos botones de gestión remota del nodo <i>edge</i> —como apagar la Raspberry Pi o ajustar en caliente parámetros de funcionamiento (cada cuánto envía datos el dominio de sistema o el intervalo <i>anti-spam</i> de las alertas)—. Tanto la API como el receptor se ejecutan como servicios <code class="j-code">systemd</code>, de modo que arrancan solos y se reinician ante cualquier interrupción.</p>
+      <p>En el apartado de visión artificial, he desarrollado el <i>pipeline</i> de detección de personas con YOLO y lo he validado sobre vídeo real, ejecutándolo en mi propio equipo (todavía sin el acelerador Hailo y sin desplegar en la Raspberry Pi). Cuando el sistema detecta a una persona, genera una alerta que se publica por MQTT con el mismo esquema <i>store-and-forward</i> que el resto de dominios, incluyendo la caja de la detección, la posición del dron y una foto del fotograma con las coordenadas y la marca temporal superpuestas. En paralelo, he empezado a construir el dataset con Roboflow y ya he capturado las primeras imágenes para el entrenamiento.</p>
+      <p>El repositorio del servidor se ha reorganizado por carpetas para separar las páginas web, el panel de control y la API, y se trabaja ahora sobre una rama <code class="j-code">develop</code> que mantiene la rama principal con la versión estable. El fallo de la tarjeta microSD que dejó temporalmente fuera de servicio a la Raspberry Pi está resuelto, se ha sustituido y repetido la instalación de la imagen, además de realizar nuevamente el <i>script</i> del receptor, ya que no estaba subido dicho código.</p>
+      <p><b>Próximos pasos:</b> ampliar el dataset de detección con muchas más imágenes aéreas para entrenar el modelo definitivo, y montar la VPN que dé conectividad segura entre el nodo edge y la nube. En paralelo, ensamblar el dron definitivo (pendiente de comprar el material) e incorporar autenticación a la API y cifrado MQTT antes de conectar la cadena de mando a la aeronave real.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOG -->
+<section class="relative bg-white py-14 md:py-16">
+  <div class="max-w-5xl mx-auto px-6">
+
+    <div class="j-view-toggle mb-10">
+      <button type="button" class="j-view-btn is-active" data-view="daily">Vista diaria</button>
+      <button type="button" class="j-view-btn" data-view="weekly">Vista semanal</button>
+    </div>
+
+    <div id="view-daily">
+
+    <p class="text-xs uppercase tracking-widest text-slate-500 mb-3 font-mono">Filtrar por área</p>
+    <div class="j-filters mb-12">
+      <button type="button" class="j-filter is-active" data-filter="todos">Todos</button>
+      <button type="button" class="j-filter" data-filter="hardware">Hardware</button>
+      <button type="button" class="j-filter" data-filter="sistema">Sistema</button>
+      <button type="button" class="j-filter" data-filter="ia">IA</button>
+      <button type="button" class="j-filter" data-filter="vuelo">Vuelo</button>
+      <button type="button" class="j-filter" data-filter="memoria">Memoria</button>
+    </div>
+
+    <p class="j-month">Julio 2026</p>
+
+    <details class="j-phase" data-cats="memoria hardware sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">Hasta 11 julio</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <span class="j-tag j-tag--hardware">Hardware</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Índice de contenidos de la memoria planteado.</li>
+        <li>Lectura e investigación sobre la normativa. Certificado <b>A1/A3 de AESA</b> y número de operador obtenidos.</li>
+        <li>Investigación sobre dónde volar el dron y cómo pedir permisos: consulta a clubes de aeromodelismo (Majadahonda y Alas de Galapagar) por sus condiciones. Inscripción como socia en <b>Alas de Galapagar</b>, ya que no requiere pedir permisos a AESA y ofrece un lugar seguro y cómodo para volar cuando quiera.</li>
+        <li>Compra de la <b>Raspberry Pi 5</b> y del primer sensor, el <b>BME680</b> <span class="j-cost">20,85 €</span> — sensor ambiental que mide temperatura, humedad relativa, presión barométrica y resistencia de gas.
+          <ul class="j-sub">
+            <li>Conexión sensor – Raspberry configurada.</li>
+          </ul>
+        </li>
+        <li>Instancia <b>EC2</b> configurada en AWS <span class="j-cost">~4 $/mes (24 h)</span>:
+          <ul class="j-sub">
+            <li>AMI Ubuntu sobre <b>t3.small</b>.</li>
+            <li>Grupos de seguridad creados: puerto <code class="j-code">1883</code> para la comunicación MQTT con el broker Mosquitto, puerto <code class="j-code">22</code> para SSH y puerto <code class="j-code">8086</code> para el acceso a la base de datos InfluxDB.</li>
+            <li>Instalación del servicio broker <b>Mosquitto</b> en la EC2 para la comunicación con el sensor.</li>
+            <li>Creación de <b>IP elástica</b> (sin ella la IP pública de la EC2 cambiaba al reiniciarse, obligando a modificar los scripts, peticiones HTTP…).</li>
+          </ul>
+        </li>
+        <li>Publicación de datos (del sensor a la EC2):
+          <ul class="j-sub">
+            <li>La Raspberry Pi actúa como cliente <b>publicador</b> y en el servidor un segundo cliente actúa como <b>suscriptor</b>, recibiendo los mensajes y publicándolos en InfluxDB. Scripts creados: <code class="j-code">sensor.py</code> en la Pi y <code class="j-code">mqtt_to_influx.py</code> en la EC2.</li>
+            <li>Implementación de la arquitectura <b>store-and-forward</b> en <code class="j-code">sensor.py</code> para que ningún dato se pierda ante una caída temporal de la conexión (cada lectura se almacena primero en una base de datos local SQLite, <code class="j-code">buffer.db</code>).</li>
+          </ul>
+        </li>
+        <li>Recepción y almacenamiento en el servidor:
+          <ul class="j-sub">
+            <li><code class="j-code">mqtt_to_influx.py</code> actúa como cliente suscriptor; se ejecuta en la EC2 dentro de un entorno virtual propio (<code class="j-code">env</code>) con las librerías <code class="j-code">paho-mqtt</code> (comunicación con el broker) e <code class="j-code">influxdb-client</code> (escritura en la base de datos).</li>
+            <li>Cada lectura recibida se almacena en InfluxDB.</li>
+          </ul>
+        </li>
+        <li>Almacenamiento en InfluxDB:
+          <ul class="j-sub">
+            <li>Abierta una entrada en el grupo de seguridad para el puerto <code class="j-code">8086</code>, de forma que se pueda acceder desde el navegador mediante la dirección pública de la EC2.</li>
+          </ul>
+        </li>
+        <li>Configuración de servicios <b>systemctl</b> de Linux en la Pi y en el servidor, para que inicien sus procesos automáticamente en cada arranque sin intervención manual.</li>
+        <li>Publicación de los scripts en <b>GitHub</b>. Cada repo incluye README (documentación de uso), <code class="j-code">.gitignore</code> (evita subir archivos sensibles o innecesarios), <code class="j-code">requirements.txt</code> (dependencias reproducibles) y <code class="j-code">.env.example</code> (plantilla de credenciales, que se mantienen fuera del repositorio).
+          <ul class="j-sub">
+            <li><a class="j-link" href="https://github.com/nereagorostidi/drone-cloud-server" target="_blank" rel="noopener">github.com/nereagorostidi/drone-cloud-server</a></li>
+            <li><a class="j-link" href="https://github.com/nereagorostidi/drone-edge-companion" target="_blank" rel="noopener">github.com/nereagorostidi/drone-edge-companion</a></li>
+          </ul>
+        </li>
+        <li>Compra del dominio <code class="j-code">gorostiditfg.com</code> en <b>Cloudflare</b> <span class="j-cost">10,41 $</span>, para acceder a los servicios mediante subdominios legibles en vez de la IP del servidor.</li>
+        <li>Creación de dos páginas (HTML + CSS sencillo) que usaré más adelante: una para la presentación del proyecto y otra para el control del dron.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema vuelo">
+      <summary class="j-phase-summary">
+        <span class="j-date">11 julio</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-tag j-tag--vuelo">Vuelo</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Creación de servidores web:
+          <ul class="j-sub">
+            <li>Instalación del servidor web <b>nginx</b> y aprendizaje de la configuración de varios servidores virtuales web en la misma máquina.</li>
+            <li>Alta en el servidor DNS de Cloudflare de los nombres de host necesarios (ya puedo acceder a las páginas creadas con el dominio): <code class="j-code">www.gorostiditfg.com</code> y <code class="j-code">control.gorostiditfg.com</code>.</li>
+            <li>Configuración de nginx como <b>reverse proxy</b> para acceder a la interfaz de InfluxDB igual que a las demás webs: como usa el puerto <code class="j-code">8086</code> en la petición HTTP, había que indicarlo y ya no es necesario especificarlo → <code class="j-code">influxdb.gorostiditfg.com</code>.</li>
+          </ul>
+        </li>
+        <li>Gestión de claves públicas / privadas:
+          <ul class="j-sub">
+            <li>Limpieza y ordenación de las claves públicas/privadas, que estaban mezcladas. Configuración del fichero <code class="j-code">.ssh</code> en la EC2 para permitir el acceso con mi clave pública en lugar del <code class="j-code">.pem</code> (habilitando esta otra forma editando el <code class="j-code">.ssh</code>).</li>
+          </ul>
+        </li>
+        <li>Mission Planner:
+          <ul class="j-sub">
+            <li>Configuración del simulador de vuelo <b>Mission Planner</b>. Vuelos de prueba en dos zonas distintas.</li>
+            <li>Desarrollo de un script en Python (con <b>pymavlink</b>) que se conecta al simulador vía MAVLink para enviar comandos de vuelo: armado/desarmado, despegue y modo AUTO para ejecutar misiones por waypoints. La conexión se establece mediante reenvío UDP de Mission Planner al puerto local <code class="j-code">14550</code>.</li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="vuelo">
+      <summary class="j-phase-summary">
+        <span class="j-date">12 julio</span>
+        <span class="j-tag j-tag--vuelo">Vuelo</span>
+        <span class="j-hito">★ Primer vuelo real</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Visita al club de Galapagar: recogida del carnet de socia y las llaves de acceso, y presentación con el presidente.</li>
+        <li>Contactos en el club:
+          <ul class="j-sub">
+            <li>Presidente: <b>Darco</b>.</li>
+            <li>Primer vuelo acompañada por <b>José Manuel</b>.</li>
+            <li>Contacto por correo: <b>Paco</b> (Francisco). También me presentan a otro socio con un DJI (me enseña su maletín) y a alguien con mucho conocimiento sobre baterías.</li>
+          </ul>
+        </li>
+        <li>Me muestran en Mission Planner la zona por la que debo volar, y por qué aparece marcada en amarillo.</li>
+        <li>Primer vuelo real de un dron: uso de la cuenta de mi padre (instalación y configuración de la app DJI en mi móvil).</li>
+        <li>Me recomiendan comprar mejores adaptadores/cables para el dron (uno de carga más rápida).</li>
+        <li>Grabación de vídeos con el DJI en el primer vuelo. Los datos deberían quedar almacenados.</li>
+        <li><b>Importante:</b> pegar en el dron mi número de operador.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="memoria vuelo sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">13 julio</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <span class="j-tag j-tag--vuelo">Vuelo</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Investigación sobre la posibilidad de volar el dron en <b>Comillas (Cantabria)</b>, con vistas a realizar un vuelo allí este fin de semana: consulta de la normativa y de las restricciones de la zona.</li>
+        <li>Configuración del dron en su aplicación y colocación física de mi propio <b>número de operador</b> sobre el dron, según exige la normativa.</li>
+        <li>Actualización y mejora de la <b>página web</b> del proyecto para dejarla presentable de cara al tutor.
+          <ul class="j-sub">
+            <li>Creación de la página del <b>diario de tareas</b> y de la página de <b>operador</b>.</li>
+            <li>Generación de un <b>código QR</b> que enlaza con la página de operador, para pegarlo en el dron: al escanearlo muestra los datos del operador.</li>
+          </ul>
+        </li>
+        <li>Subida de los <i>logs</i> del primer vuelo a <b>Airdata</b> y a <b>PhantomHelp Log Viewer</b> para revisar y analizar los datos del vuelo.</li>
+        <li>Eliminación del puerto <code class="j-code">8086</code> del grupo de seguridad de la EC2, ya innecesario: el acceso a la interfaz de InfluxDB se realiza ahora a través de <b>nginx</b> configurado como <i>reverse proxy</i> (<code class="j-code">influxdb.gorostiditfg.com</code>), sin exponer el puerto directamente a internet.</li>
+        <li>Comunicación al tutor del <b>avance del proyecto</b>, compartiéndole la web para que pueda hacer el seguimiento del progreso a través del diario de tareas.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="vuelo sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">14 julio</span>
+        <span class="j-tag j-tag--vuelo">Vuelo</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>He retomado el <b>control del dron simulado desde Python</b> (Mission Planner + ArduPilot SITL): Había un problema del armado (los <i>pre-arm checks</i> y el GPS del simulador) y he conseguido que vuelva a funcionar. He comprobado que efectivamente funcione el ciclo completo —armado, despegue y misión por waypoints en modo AUTO—, viendo el dron moverse en Mission Planner.</li>
+        <li>Pasar el control de vuelo a la <b>Raspberry Pi</b>, para que las órdenes salgan del nodo <i>edge</i> y no del PC:
+          <ul class="j-sub">
+            <li>Configuración de la conexión por red entre la Pi y Mission Planner, usando las IP reales de cada máquina en lugar de <code class="j-code">127.0.0.1</code>, el reenvío UDP y el puerto <code class="j-code">14550</code>.</li>
+            <li>Entender la lógica de quién envía y quién escucha (<code class="j-code">udpin</code>/<code class="j-code">udpout</code>) y por qué en MAVLink la Pi escucha mientras recibe la telemetría del autopiloto.</li>
+            <li>Conseguir que la Pi de órdenes al dron simulado por MAVLink a través de la red, validando así la arquitectura <i>edge-first</i>.</li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">15 julio</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-hito">★ Control web completo</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Implementación del <b>control del dron por MQTT</b>, montando el patrón publicador–receptor:
+          <ul class="j-sub">
+            <li>Creación de un publicador (<code class="j-code">comandos.py</code>, en el EC2) que envía las órdenes por MQTT, y de un receptor (<code class="j-code">receptor.py</code>, en la Pi) que las traduce a MAVLink y las ejecuta sobre el dron simulado.</li>
+            <li>He empezado por argumentos como armar/desarmar para comprobar que funcione y después he añadido más: despegue, aterrizaje, RTL (volver a casa), mantener posición e iniciar misión.</li>
+          </ul>
+        </li>
+        <li>Conversión del publicador en una <b>API REST con Flask</b> (<code class="j-code">api.py</code>, en el EC2) para poder invocar los comandos por HTTP en lugar de por terminal, y para ello se ha abierto el puerto <code class="j-code">5000</code> en el grupo de seguridad de AWS.</li>
+        <li>Modificación de la <b>página de control web</b> añadiendo botones para cada comando, que llama a esa API: <a class="j-link" href="https://control.gorostiditfg.com" target="_blank" rel="noopener">control.gorostiditfg.com</a></li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">16 julio</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Repaso conceptual a fondo de la <b>API REST</b> (<code class="j-code">api.py</code>) para entender no solo qué hace, sino por qué existe y qué papel tiene dentro de la arquitectura. Se ha revisado la cadena completa de comunicación: navegador (HTTP) → <code class="j-code">api.py</code> en el EC2, que traduce HTTP a MQTT → broker Mosquitto (puerto <code class="j-code">1883</code>) → <code class="j-code">receptor.py</code> en la Raspberry Pi, que traduce MQTT a MAVLink → autopiloto → dron.
+          <ul class="j-sub">
+            <li>El HTTP aparece únicamente porque el emisor es el navegador, que solo habla ese protocolo.</li>
+            <li><code class="j-code">api.py</code> y <code class="j-code">receptor.py</code> no están conectados directamente: se comunican a través del broker, gracias al modelo <b>publicador/suscriptor desacoplado</b> de MQTT.</li>
+            <li><code class="j-code">comandos.py</code> y <code class="j-code">api.py</code> son alternativas paralelas para enviar los mismos comandos, no pasos consecutivos.</li>
+            <li>El formato <b>JSON</b> solo se usa en los tramos HTTP y MQTT; el tramo MAVLink es <b>binario</b>, por ser un enlace de telemetría con ancho de banda limitado.</li>
+            <li>Los puertos son por servicio: Flask en el <code class="j-code">5000</code> y Mosquitto en el <code class="j-code">1883</code>. <code class="j-code">receptor.py</code> no abre ningún puerto porque actúa como cliente, no como servidor.</li>
+          </ul>
+        </li>
+        <li>Comprobación de que la <b>página de control con botones</b> funciona correctamente y envía las señales al simulador.</li>
+        <li>Error «puerto 5000 en uso» al relanzar la API: se debía a un <b>proceso zombi</b> que quedó vivo tras un <code class="j-code">Ctrl+C</code> incompleto. Resuelto con <code class="j-code">pkill -f api.py</code>.</li>
+        <li>A raíz de esto se ha decidido convertir <code class="j-code">api.py</code> y <code class="j-code">receptor.py</code> en <b>servicios systemd</b>, igual que ya lo están <code class="j-code">mqtt_to_influx.py</code> y <code class="j-code">sensor.py</code>, para que arranquen solos y no dependan de una terminal abierta. <span class="j-cost">PENDIENTE</span></li>
+        <li>Creación de <b>clave SSL</b> para proteger con HTTPS todas las páginas creadas, lo que ha implicado abrir también el puerto <code class="j-code">443</code> en el grupo de seguridad del servidor.</li>
+        <li>Al pasar las páginas a HTTPS, la <b>API ha dejado de funcionar</b>. El diagnóstico es un bloqueo de <b>contenido mixto</b>: el navegador impide que una página servida por HTTPS haga peticiones a un recurso HTTP.
+          <ul class="j-sub">
+            <li>Solución planteada: crear el subdominio <code class="j-code">api.gorostiditfg.com</code> en Cloudflare en modo <i>Proxied</i>, configurar nginx como <i>reverse proxy</i> hacia <code class="j-code">localhost:5000</code> y actualizar la URL del <code class="j-code">fetch</code> en el JavaScript del panel. <span class="j-cost">PENDIENTE</span></li>
+          </ul>
+        </li>
+        <li><b>Nota:</b> la API sigue sin autenticación, decisión deliberada mientras se trabaja en simulación. Habrá que añadirla antes de conectarla al hardware real.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="hardware sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">17 julio</span>
+        <span class="j-tag j-tag--hardware">Hardware</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Actualización del repositorio del servidor en <b>GitHub</b>, dividiéndolo en carpetas (<code class="j-code">www/web/</code>, <code class="j-code">control/</code> y <code class="j-code">api-rest/</code>) e incluyendo las páginas HTML, que hasta ahora solo existían en el servidor.</li>
+        <li>Al ir a actualizar el repositorio de la Pi, se ha detectado que <b>no se puede acceder a ella por SSH</b>. La tarjeta <b>microSD se ha estropeado</b>, probablemente por cortar la corriente bruscamente en lugar de hacer un <code class="j-code">sudo poweroff</code>. Se ha intentado volver a cargar la imagen de Raspberry Pi OS en la tarjeta y no es capaz de leerla.</li>
+        <li><b>Lección aprendida:</b> apagar siempre la Pi con <code class="j-code">sudo poweroff</code> y mantener todo actualizado en GitHub, para no perder los códigos ni el trabajo hecho hasta el momento.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="hardware">
+      <summary class="j-phase-summary">
+        <span class="j-date">20 julio</span>
+        <span class="j-tag j-tag--hardware">Hardware</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Sustitución de la <b>tarjeta microSD</b> de la Raspberry Pi, repitiendo todo el proceso con la nueva SD:
+          <ul class="j-sub">
+            <li>Grabación de la imagen del sistema operativo y configuración inicial de la Raspberry (acceso por SSH, red, habilitación del bus <b>I2C</b>).</li>
+            <li>Clonado del repositorio desde GitHub y recuperación del entorno de trabajo.</li>
+            <li>Reescritura de <code class="j-code">receptor.py</code>, único script que no estaba subido al repositorio y que se perdió con la tarjeta.</li>
+          </ul>
+        </li>
+        <li>Actualización del <b>README</b> y publicación de los cambios en GitHub.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="memoria sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">21 julio</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Revisión de todo lo realizado hasta el momento y comienzo de la redacción en la <b>memoria del TFG</b> de la arquitectura diseñada: capítulo 5, apartado 5.4 (<i>Arquitectura IoT con AWS EC2 y Mosquitto</i>):
+          <ul class="j-sub">
+            <li>Infraestructura de la instancia EC2.</li>
+            <li>Sensor <b>BME680</b>.</li>
+            <li>Flujo de datos con arquitectura <b>store-and-forward</b>.</li>
+            <li>Almacenamiento en <b>InfluxDB</b>.</li>
+            <li>Ejecución autónoma mediante <b>systemd</b>.</li>
+          </ul>
+        </li>
+        <li>Revisión del estado de los <b>certificados TLS</b> de los subdominios para identificar cuáles quedaban pendientes de configurar.</li>
+        <li><b>Resuelto el problema de <i>mixed content</i></b>: creado el subdominio <code class="j-code">api.gorostiditfg.com</code>, configurado nginx como <i>reverse proxy</i> hacia <code class="j-code">localhost:5000</code>, emitido el certificado TLS y actualizada la URL del <code class="j-code">fetch</code> en el panel de control.</li>
+        <li>Eliminada la regla del <b>puerto 5000</b> del grupo de seguridad de la instancia, ya innecesaria al accederse a la API a través del <i>reverse proxy</i> de nginx.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema memoria">
+      <summary class="j-phase-summary">
+        <span class="j-date">22 julio</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Creación de los <b>servicios systemd</b> para <code class="j-code">receptor.py</code> en la Raspberry Pi y para <code class="j-code">api.py</code> en la instancia EC2, de forma que ambos arranquen automáticamente y se reinicien ante cualquier interrupción, sin depender de una sesión SSH abierta.</li>
+        <li>Continuación de la redacción del <b>capítulo 5</b> de la memoria: infraestructura de servicios web y control remoto, y simulación <b>SITL</b> con ArduPilot.</li>
+        <li>Instalación y prueba de <b>Claude Code</b>, para desarrollar una interfaz web más completa y con mayor número de funcionalidades.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="memoria">
+      <summary class="j-phase-summary">
+        <span class="j-date">27 julio</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Reorganización estructural de la memoria: división del antiguo <b>capítulo 5</b> en <b>capítulo 5</b> (control de vuelo y telemetría: MAVLink, GCS, pymavlink, SITL, FPV) y <b>capítulo 6</b> (arquitectura IoT: EC2, BME680, MQTT, servicios web).</li>
+        <li>Reconstrucción del <b>capítulo 2 (estado del arte)</b>:
+          <ul class="j-sub">
+            <li>2.1 UAV en SAR · 2.2 Comunicaciones más allá de la línea de visión (BVLOS) · 2.3 Detección de personas con YOLO.</li>
+            <li>Reubicación del contenido mal colocado: comparativa de chasis &rarr; 4.2.1; fusión IMU/GPS/Kalman &rarr; 4.2.2; justificación de MQTT/EC2 &rarr; 6.3; detalles de FPV &rarr; 5.5.</li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="memoria">
+      <summary class="j-phase-summary">
+        <span class="j-date">28 julio</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Redacción del <b>capítulo 3 (normativa)</b>, secciones 3.1&ndash;3.4 y 3.6: Reglamento (UE) 2019/947, categoría abierta A3, <i>Remote ID</i> obligatorio desde enero de 2026, RD 517/2024, sentencia del TS de junio de 2025, doble registro (operador AESA + aeronave) y Ley 11/2022.</li>
+        <li>Mensaje al tutor (<b>Dani</b>) para preguntar por la posible financiación de la universidad para los materiales del dron. <span class="j-cost">PENDIENTE de respuesta</span></li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="memoria">
+      <summary class="j-phase-summary">
+        <span class="j-date">29 julio</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Revisión de la arquitectura del sistema de cara al <b>capítulo 4</b> (apartado 4.1): repaso del diseño extremo a extremo y preparación del esquema de arquitectura (queda a medias, se continuará).</li>
+        <li>Construcción de la <b>bibliografía</b> en formato <b>IEEE</b>, según la guía de la biblioteca de la UC3M, para los capítulos ya redactados (normativa y estado del arte).</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="ia">
+      <summary class="j-phase-summary">
+        <span class="j-date">30 julio</span>
+        <span class="j-tag j-tag--ia">IA</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Primer contacto con <b>Roboflow</b> de cara a construir el dataset y entrenar <b>YOLOv8</b> para el <b>Hailo-8L</b>: investigación, tutoriales y pruebas de anotación para entender cómo funciona, ver la división de los datos y qué es la <i>augmentation</i>.</li>
+      </ul>
+    </details>
+
+    <p class="j-month">Agosto 2026</p>
+
+    <details class="j-phase" data-cats="hardware">
+      <summary class="j-phase-summary">
+        <span class="j-date">5 agosto</span>
+        <span class="j-tag j-tag--hardware">Hardware</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Un socio del club de Galapagar me presta un <b>hexacóptero de fibra de carbono</b> para reutilizar piezas.</li>
+        <li>Análisis de las piezas del dron prestado:
+          <ul class="j-sub">
+            <li><b>Reutilizables:</b> chasis de fibra de carbono, 6 motores <b>T-Motor MN3110-780KV</b>, ESCs, hélices de carbono, tren de aterrizaje, receptor <b>FlySky FS-iA10B</b> y conectores.</li>
+            <li><b>No reutilizables:</b> controladora <b>DJI NAZA-M Lite</b> (propietaria, incompatible con ArduPilot/MAVLink), GPS DJI, cadena FPV analógica y PDB (sin confirmar).</li>
+          </ul>
+        </li>
+        <li>Comparativa de opciones de compra:
+          <ul class="j-sub">
+            <li><b>Plan A</b> (reutilizar piezas): ~545&ndash;550 &euro; en componentes nuevos.</li>
+            <li><b>Plan B</b> (kit nuevo Holybro X500 v2 con Pixhawk 6X): ~943 &euro; y agotado. Se opta por el Plan A.</li>
+          </ul>
+        </li>
+        <li>Elaboración de la <b>lista de compra</b> de componentes nuevos: Pixhawk 6C + PM02, GPS Holybro M10, radio de telemetría 433 MHz, batería LiPo 6S, cargador iMAX B6AC, emisora FlySky FS-i6X y consumibles de montaje.
+          <ul class="j-sub">
+            <li>La Raspberry Pi 5 + Hailo requiere un <b>UBEC dedicado de &ge;5 A</b> (el BEC del PDB no basta).</li>
+          </ul>
+        </li>
+        <li>Al estar el kit agotado, llamada a <b>RC-Innovations</b>; me indican mandar un correo para <b>reservar el kit</b>, que tendrán disponible la próxima semana.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="hardware ia">
+      <summary class="j-phase-summary">
+        <span class="j-date">6 agosto</span>
+        <span class="j-tag j-tag--hardware">Hardware</span>
+        <span class="j-tag j-tag--ia">IA</span>
+        <span class="j-hito">★ Primer modelo YOLO</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Envío del <b>correo a RC-Innovations</b> pidiendo disponibilidad y presupuesto de los componentes.</li>
+        <li>Primera <b>práctica completa con Roboflow</b> para entender de primera mano cómo funciona la herramienta y el flujo de trabajo de un detector YOLO de principio a fin, sobre un caso de prueba sencillo (detección de frutas):
+          <ul class="j-sub">
+            <li>Preparación del <b>entorno de trabajo en local</b> (Python, VS Code y Claude Code) y comprobación de que todo ejecuta correctamente.</li>
+            <li>Partiendo de un <b>dataset público</b> de Roboflow Universe, he añadido <b>fotos propias</b> y las he etiquetado a mano (<i>bounding boxes</i>) para personalizar el conjunto.</li>
+            <li>Aplicación del <b>preprocesado</b> y el <i>augmentation</i>, y generación de la versión final del dataset.</li>
+            <li>Descarga del dataset y <b>entrenamiento de un modelo YOLO en local</b> con Ultralytics, obteniendo el modelo entrenado (<code class="j-code">best.pt</code>).</li>
+          </ul>
+        </li>
+        <li>Con esto he cubierto todo el proceso hasta obtener el modelo. El <b>siguiente paso</b> es probar el modelo entrenado sobre <b>vídeo</b> (inferencia), para ver las detecciones en imágenes en movimiento y comprobar si detecta correctamente cada fruta.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="ia">
+      <summary class="j-phase-summary">
+        <span class="j-date">7 agosto</span>
+        <span class="j-tag j-tag--ia">IA</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Partiendo del modelo entrenado el día anterior, he profundizado en el ajuste del entrenamiento probando distintos números de épocas:
+          <ul class="j-sub">
+            <li>Primera prueba con 15 épocas: insuficiente.</li>
+            <li>Ampliación a 80 épocas con parada temprana (<code class="j-code">patience=20</code>); la métrica de validación se estabiliza en torno a la época 40, por lo que ese número resulta suficiente para la convergencia.</li>
+          </ul>
+        </li>
+        <li>He medido el coste real del entrenamiento en local: ha tardado <b>2 h 40 min</b> ejecutándose sobre CPU, a pesar de tratarse de un modelo ligero y un dataset pequeño (~300 imágenes con aumentación). Este dato es una referencia clave de cara al proyecto: al ser el dataset real de personas mucho mayor y más complejo, su entrenamiento tendrá que realizarse en la nube.</li>
+        <li>He realizado la <b>inferencia sobre vídeo</b> que quedaba pendiente, guardando el resultado anotado en <code class="j-code">output.mp4</code>. La he probado tanto con un vídeo grabado con el móvil como con uno grabado desde el dron.</li>
+        <li>Revisión de resultados: analizando las curvas de aprendizaje y la matriz de confusión he visto que el modelo confunde con cierta frecuencia manzana y pera, por tratarse de clases visualmente parecidas y un dataset reducido.</li>
+        <li>Publicación de todo el código en un repositorio de <b>GitHub</b>, con su README documentando el flujo, los parámetros de entrenamiento e inferencia y las limitaciones observadas: <a class="j-link" href="https://github.com/nereagorostidi/yolo-pipeline-test" target="_blank" rel="noopener">github.com/nereagorostidi/yolo-pipeline-test</a></li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="hardware memoria">
+      <summary class="j-phase-summary">
+        <span class="j-date">8 agosto</span>
+        <span class="j-tag j-tag--hardware">Hardware</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <span class="j-hito">★ Kit reservado</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Recepción de la respuesta de <b>RC-Innovations</b> por correo con el <b>presupuesto total</b>. Contestación confirmando la <b>reserva del kit</b> para poder recibirlo cuanto antes.</li>
+        <li>Redacción de la memoria, centrada en el <b>cierre de los capítulos 1, 2, 3, y 6</b>.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="vuelo ia">
+      <summary class="j-phase-summary">
+        <span class="j-date">9 agosto</span>
+        <span class="j-tag j-tag--vuelo">Vuelo</span>
+        <span class="j-tag j-tag--ia">IA</span>
+        <span class="j-hito">★ Primeras grabaciones del dataset</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>He hecho un par de vuelos en el <b>club de aeromodelismo</b> (por la mañana) para empezar a construir mi <b>dataset de detección de personas</b>: grabación de vídeos con el dron sobre mis padres.</li>
+        <li>Procesado del material: <b>extracción de frames</b> de los vídeos y selección de <b>35 imágenes distintas</b> para el dataset.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">10 agosto</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Me he centrado en la arquitectura, en cómo estructurar la adquisición de datos del nodo edge. La primera idea que planteo es un <b>proceso único con un scheduler cooperativo por reloj</b>: un solo hilo que en cada vuelta mira qué colector toca según su intervalo, con todos escribiendo en una <b>única base SQLite compartida</b>.</li>
+        <li>Al analizarlo veo que esta opción tiene riesgo de <b>bloqueos y concurrencia</b> sobre la base compartida, y que un fallo en un colector perjudica al resto. He optado por <b>un proceso independiente por dominio</b> (ambiental, sistema, vuelo y detección), cada uno con <b>su propia base SQLite</b>. Con eso elimino los bloqueos, gano resiliencia (si uno cae, los demás siguen) y me queda un sistema mucho más fácil de mantener y ampliar.
+          <ul class="j-sub">
+            <li>Topics MQTT jerárquicos (<code class="j-code">sar/{dron_id}/{dominio}</code>) y <code class="j-code">client_id</code> como <code class="j-code">{dron_id}-{dominio}</code> para que Mosquitto no tire conexiones por IDs duplicados.</li>
+            <li>Lectura del <code class="j-code">dron_id</code> desde un <code class="j-code">.env</code> compartido.</li>
+            <li>Buffers store-and-forward con <b>QoS 1</b> para no perder ni un dato si se cae la red.</li>
+            <li>Comunicación directa entre <code class="j-code">vuelo.py</code> y <code class="j-code">deteccion.py</code> mediante escrituras atómicas en <code class="j-code">posicion_actual.json</code>.</li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema ia memoria">
+      <summary class="j-phase-summary">
+        <span class="j-date">11 agosto</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-tag j-tag--ia">IA</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <span class="j-hito">★ Arquitectura de datos implementada</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Paso el diseño a código y desarrollo los cuatro colectores:
+          <ul class="j-sub">
+            <li><code class="j-code">ambiental.py</code> para leer los datos del sensor <b>BME680</b>.</li>
+            <li><code class="j-code">sistema.py</code> para monitorizar las métricas y el estado de la Raspberry Pi.</li>
+            <li><code class="j-code">vuelo.py</code> de forma provisional con <b>telemetría simulada</b> (a la espera de integrar la Pixhawk).</li>
+            <li><code class="j-code">deteccion.py</code> integrando <b>YOLO</b>, afinando parámetros como flags explícitos (<code class="j-code">--mqtt</code> y <code class="j-code">--preview</code>), un <code class="j-code">--anti-spam</code> por defecto a 5 s y haciendo que cada proceso infiera automáticamente su base de datos según el dominio, sin configuraciones extra.</li>
+          </ul>
+        </li>
+        <li>Actualizo el bridge MQTT en el servidor:
+          <ul class="j-sub">
+            <li>Uso un receptor universal suscrito a <code class="j-code">sar/#</code>: así identifica automáticamente de qué sensor viene el dato leyendo el <i>topic</i> y simplifica la estructura del JSON para que la base de datos lo trague sin procesado extra.</li>
+          </ul>
+        </li>
+        <li>Monto el <i>modo fake</i> para agilizar pruebas:
+          <ul class="j-sub">
+            <li>Configuro mi propio ordenador como <b>dron-02</b> para levantar y validar todo el flujo de datos en local con simulación, para no tener que depender de la Pi y su conexión por SSH en cada prueba.</li>
+          </ul>
+        </li>
+        <li>Documentación:
+          <ul class="j-sub">
+            <li>Documentación de lo configurado para tener toda la arquitectura y las decisiones de diseño en un documento, con diagramas explicativos para repasar.</li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema ia" open>
+      <summary class="j-phase-summary">
+        <span class="j-date">12 agosto</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-tag j-tag--ia">IA</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Prueba de la detección de personas sobre vídeo real::
+          <ul class="j-sub">
+            <li>Ejecuto <code class="j-code">deteccion.py</code> con YOLO sobre un vídeo real, corriéndolo en mi propia máquina</li>
+            <li>Al detectar una persona, salta una alerta por MQTT en <code class="j-code">sar/{dron_id}/deteccion</code> (con buffer store-and-forward), que incluye la caja en píxeles, la posición del dron y la foto.</li>
+            <li>La foto se guarda con <i>overlay</i> de coordenadas (posición del dron) y fecha/hora, y las alertas llevan un <i>throttling</i> anti-spam (5 s) para no saturar el topic con la misma persona.</li>
+          </ul>
+        </li>
+        <li>Fallo en el armado desde el panel web:
+          <ul class="j-sub">
+            <li>La función de armado deja de responder de repente, así que me pongo a depurar qué está fallando en la comunicación entre la web y la API.</li>
+          </ul>
+        </li>
+        <li>Identificación de los dos problemas principales:
+          <ul class="j-sub">
+            <li><b>Bloqueo por Mixed Content:</b> el panel carga bajo HTTPS, pero el <code class="j-code">API_BASE</code> del <code class="j-code">index.html</code> seguía apuntando por HTTP directamente a la IP pública de la instancia EC2. Como el navegador bloquea las llamadas HTTP inseguras, cambio la URL para que apunte a <code class="j-code">https://api.gorostiditfg.com</code>.</li>
+            <li><b>Pérdida del identificador del dron:</b> al cambiar de dron en la interfaz, la web no incluye el <code class="j-code">drone_id</code> en el cuerpo de la petición. La API asigna por defecto <code class="j-code">dron-01</code>, pero como el receptor está escuchando en <code class="j-code">dron-02</code>, el comando se pierde y nunca llega a ejecutarse.</li>
+          </ul>
+        </li>
+        <li>Solución e integración:
+          <ul class="j-sub">
+            <li>Añado un desplegable de selección de dron (<code class="j-code">dron-01</code> / <code class="j-code">dron-02</code>) en el panel de control.</li>
+            <li>Modifico la función <code class="j-code">enviar()</code> para que capture el valor seleccionado y lo adjunte en cada petición a la API.</li>
+            <li>Con esto el flujo queda resuelto: el desplegable define en qué <i>topic</i> publica la API y, siempre que el receptor esté escuchando en ese mismo dron, los comandos entran sin problema.</li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="vuelo memoria" open>
+      <summary class="j-phase-summary">
+        <span class="j-date">13 agosto</span>
+        <span class="j-tag j-tag--vuelo">Vuelo</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <span class="j-hito">★ Landing page publicada</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Depuración del enlace con Mission Planner: aunque la parte web ya está resuelta, el dron sigue sin armar debido a un conflicto de puertos:
+          <ul class="j-sub">
+            <li><code class="j-code">receptor.py</code> falla al arrancar con <code class="j-code">WinError 10013</code> porque Mission Planner tiene ocupado el puerto <code class="j-code">14550</code>. Cambio la conexión a <code class="j-code">MAVLINK_CONN = "udpin:127.0.0.1:14551"</code>.</li>
+            <li>Aun así, el script se queda bloqueado esperando en <code class="j-code">wait_heartbeat()</code> porque el reenvío UDP de Mission Planner sigue apuntando al puerto antiguo. Entro al menú avanzado de Mission Planner (<code class="j-code">Ctrl + F</code>) y redirijo el <i>forward</i> UDP a <code class="j-code">127.0.0.1:14551</code>.</li>
+            <li>En cuanto entran los <i>heartbeats</i> por el nuevo puerto, el receptor se suscribe correctamente y el dron vuelve a armar de extremo a extremo sin problemas.</li>
+          </ul>
+        </li>
+        <li>Creación de la <b>landing page</b> para pedir colaboración en el proyecto: ayuda en la compra de materiales o patrocinio, y también de personas que puedan mandarme vídeos que aporten valor a mi dataset de detección de personas: <a class="j-link" href="https://drone-sar.vercel.app/" target="_blank" rel="noopener">drone-sar.vercel.app</a></li>
+      </ul>
+    </details>
+
+    </div>
+
+    <div id="view-weekly" class="hidden">
+
+      <div class="j-week">
+        <div class="j-week-head">
+          <span class="j-week-title">Semana del 11 al 12 de julio</span>
+          <span class="j-week-range">Semana 28</span>
+          <span class="j-week-count">3 registros</span>
+        </div>
+        <p>Arranque del proyecto: normativa cerrada (certificado A1/A3 de AESA y número de operador), inscripción en el club Alas de Galapagar, primeras compras (Raspberry Pi 5 y sensor BME680), infraestructura cloud inicial en AWS (EC2, Mosquitto, InfluxDB), primeros scripts publicados en GitHub, dominio propio registrado y primer vuelo real de un dron.</p>
+        <div class="j-week-tags">
+          <span class="j-tag j-tag--memoria">Memoria</span>
+          <span class="j-tag j-tag--hardware">Hardware</span>
+          <span class="j-tag j-tag--sistema">Sistema</span>
+          <span class="j-tag j-tag--vuelo">Vuelo</span>
+        </div>
+      </div>
+
+      <div class="j-week">
+        <div class="j-week-head">
+          <span class="j-week-title">Semana del 13 al 17 de julio</span>
+          <span class="j-week-range">Semana 29</span>
+          <span class="j-week-count">5 registros</span>
+        </div>
+        <p>Consolidación de los servidores web (nginx, subdominios), primer control autónomo del dron simulado desde la Raspberry Pi por MAVLink, primer control por MQTT con API REST y panel web funcionando de extremo a extremo, y detección y resolución de un fallo de tarjeta microSD.</p>
+        <div class="j-week-tags">
+          <span class="j-tag j-tag--sistema">Sistema</span>
+          <span class="j-tag j-tag--vuelo">Vuelo</span>
+          <span class="j-tag j-tag--hardware">Hardware</span>
+          <span class="j-tag j-tag--memoria">Memoria</span>
+        </div>
+      </div>
+
+      <div class="j-week">
+        <div class="j-week-head">
+          <span class="j-week-title">Semana del 20 al 22 de julio</span>
+          <span class="j-week-range">Semana 30</span>
+          <span class="j-week-count">3 registros</span>
+        </div>
+        <p>Recuperación tras el fallo de la tarjeta SD, redacción de la memoria del TFG (arquitectura IoT) y resolución definitiva del problema de <i>mixed content</i> en HTTPS.</p>
+        <div class="j-week-tags">
+          <span class="j-tag j-tag--hardware">Hardware</span>
+          <span class="j-tag j-tag--memoria">Memoria</span>
+          <span class="j-tag j-tag--sistema">Sistema</span>
+        </div>
+      </div>
+
+      <div class="j-week">
+        <div class="j-week-head">
+          <span class="j-week-title">Semana del 27 al 30 de julio</span>
+          <span class="j-week-range">Semana 31</span>
+          <span class="j-week-count">4 registros</span>
+        </div>
+        <p>Semana centrada en la memoria: reorganización de capítulos, redacción de normativa y estado del arte, bibliografía en formato IEEE, y primer contacto con Roboflow de cara al futuro dataset de detección de personas.</p>
+        <div class="j-week-tags">
+          <span class="j-tag j-tag--memoria">Memoria</span>
+          <span class="j-tag j-tag--ia">IA</span>
+        </div>
+      </div>
+
+      <div class="j-week">
+        <div class="j-week-head">
+          <span class="j-week-title">Semana del 5 al 9 de agosto</span>
+          <span class="j-week-range">Semana 32</span>
+          <span class="j-week-count">5 registros</span>
+        </div>
+        <p>Piezas de dron reutilizadas de un hexacóptero prestado, lista de compra definitiva, primer modelo YOLO entrenado con Roboflow, presupuesto recibido y kit de vuelo reservado, y primeras grabaciones reales para el dataset de detección de personas.</p>
+        <div class="j-week-tags">
+          <span class="j-tag j-tag--hardware">Hardware</span>
+          <span class="j-tag j-tag--ia">IA</span>
+          <span class="j-tag j-tag--vuelo">Vuelo</span>
+          <span class="j-tag j-tag--memoria">Memoria</span>
+        </div>
+      </div>
+
+      <div class="j-week">
+        <div class="j-week-head">
+          <span class="j-week-title">Semana del 10 al 13 de agosto</span>
+          <span class="j-week-range">Semana 33</span>
+          <span class="j-week-count">4 registros</span>
+        </div>
+        <p>Diseño e implementación de la arquitectura de datos definitiva (colectores independientes por dominio), primera prueba de la detección de personas con YOLO sobre vídeo real, depuración del control web y del enlace MAVLink con Mission Planner, y publicación de la landing page del proyecto.</p>
+        <div class="j-week-tags">
+          <span class="j-tag j-tag--sistema">Sistema</span>
+          <span class="j-tag j-tag--ia">IA</span>
+          <span class="j-tag j-tag--vuelo">Vuelo</span>
+          <span class="j-tag j-tag--memoria">Memoria</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-navy-950 border-t border-white/10 pt-14 pb-8">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
+      <div>
+        <a href="index.html#top" class="flex items-center gap-2 font-display font-semibold text-lg text-white">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent/15 border border-accent/40 text-accent">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+          </span>
+          Drone&#8209;SAR
+        </a>
+        <p class="text-sm text-slate-500 mt-4 leading-relaxed max-w-xs">
+          Trabajo de Fin de Grado en Ingeniería de Telecomunicaciones — Universidad Carlos III de Madrid (UC3M). Proyecto académico sin ánimo de lucro.
+        </p>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-widest text-slate-500 mb-4">Navegación</p>
+        <nav class="flex flex-col gap-2.5 text-sm text-slate-400">
+          <a href="index.html#que-es" class="hover:text-white transition-colors">Qué es</a>
+          <a href="journal.html" class="hover:text-white transition-colors">Diario</a>
+          <a href="index.html#ayuda" class="hover:text-white transition-colors">Cómo ayudar</a>
+        </nav>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-widest text-slate-500 mb-4">Contacto</p>
+        <a href="mailto:nerea.gorostidi.garcia@gmail.com" class="text-accent-light hover:text-accent transition-colors text-sm break-all">nerea.gorostidi.garcia@gmail.com</a>
+        <p class="text-slate-500 text-sm mt-4 leading-relaxed">Gracias por hacer volar este proyecto.</p>
+      </div>
+    </div>
+
+    <div class="pt-8 text-xs text-slate-600">
+      <p>&copy; 2026 Drone&#8209;SAR. Documento de seguimiento del TFG, se actualiza periódicamente.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

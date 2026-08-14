@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drone-SAR — TFG: UAV autónomo de búsqueda y rescate con IA a bordo</title>
+<meta name="description" content="Drone-SAR es un Trabajo de Fin de Grado (UC3M): un dron autónomo que detecta personas desde el aire. Proyecto académico sin ánimo de lucro que busca vídeos aéreos para entrenar su IA y patrocinadores para el material.">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="tailwind.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-white text-slate-700 font-body antialiased">
+
+<a href="#ayuda" class="skip-link">Ir a cómo ayudar</a>
+
+<!-- NAV -->
+<header id="site-nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between h-16 md:h-20">
+    <a href="#top" class="flex items-center gap-2 font-display font-semibold text-lg tracking-tight text-white">
+      <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent/15 border border-accent/40 text-accent">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+      </span>
+      Drone&#8209;SAR
+    </a>
+
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+      <a href="#que-es" class="nav-link">Qué es</a>
+      <a href="journal.html" class="nav-link">Diario</a>
+      <a href="#ayuda" class="nav-link">Cómo ayudar</a>
+    </nav>
+
+    <a href="#ayuda"
+       class="hidden md:inline-flex items-center gap-2 rounded-full bg-accent hover:bg-accent-dark transition-colors px-5 py-2.5 text-sm font-semibold text-navy-950 shadow-lg shadow-accent/20">
+      Quiero ayudar
+    </a>
+
+    <button id="menu-btn" aria-label="Abrir menú" class="md:hidden text-white p-2">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+
+  <!-- mobile menu -->
+  <div id="mobile-menu" class="md:hidden hidden bg-navy-950/98 backdrop-blur border-t border-white/10">
+    <nav class="flex flex-col px-6 py-4 gap-4 text-slate-200 font-medium">
+      <a href="#que-es" class="mobile-link">Qué es</a>
+      <a href="journal.html" class="mobile-link">Diario</a>
+      <a href="#ayuda" class="mobile-link">Cómo ayudar</a>
+      <a href="#ayuda" class="mt-2 inline-flex justify-center items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-navy-950">Quiero ayudar</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="relative min-h-[100svh] flex items-end md:items-center overflow-hidden">
+  <div class="absolute inset-0">
+    <img src="images/hero.jpg" alt="Vista aérea panorámica de una cordillera montañosa captada por dron" class="h-full w-full object-cover object-center">
+    <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/70 to-navy-950/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-navy-950/80 via-transparent to-navy-950/40"></div>
+  </div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 pb-20 pt-40 md:pt-32 md:pb-32 w-full">
+    <div class="max-w-2xl reveal">
+      <p class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 backdrop-blur px-4 py-1.5 text-xs font-semibold tracking-wide uppercase text-accent-light">
+        TFG · UC3M · Proyecto sin ánimo de lucro
+      </p>
+      <h1 class="font-display font-semibold text-4xl sm:text-5xl md:text-6xl leading-[1.08] text-white mt-6">
+        Sistema autónomo de UAV para búsqueda y rescate con <span class="text-accent">IA a bordo</span>
+      </h1>
+      <p class="mt-6 text-lg text-slate-300 max-w-xl text-justify">
+        Hola! Soy Nerea, estudiante de Ingeniería de Telecomunicaciones en la UC3M. Este es mi Trabajo de Fin de Grado: un proyecto de investigación académico y sin ánimo de lucro que estoy desarrollando desde cero, centrado en el uso de drones e inteligencia artificial aplicados a la búsqueda y rescate.
+      </p>
+      <p class="mt-6 text-lg text-slate-300 max-w-xl text-justify">
+        Es un reto ambicioso, y hacerlo sola se complica mucho más, tanto por la necesidad de tener un amplio numero de datos para entrenar la IA en el dron, como por el material necesario. Por eso nace esta web, para compartir el proyecto y abrir la puerta a quienes quieran colaborar y contribuir al mismo.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <a href="#ayuda"
+           class="inline-flex items-center gap-2 rounded-full bg-accent hover:bg-accent-dark transition-colors px-7 py-3.5 font-semibold text-navy-950 shadow-xl shadow-accent/25">
+          Quiero ayudar
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#que-es" class="inline-flex items-center gap-2 rounded-full border border-white/25 hover:border-white/50 transition-colors px-7 py-3.5 font-semibold text-white">
+          Saber más
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUE ES -->
+<section id="que-es" class="relative py-20 md:py-28 bg-white">
+  <div class="max-w-3xl mx-auto px-6 text-center reveal">
+    <p class="kicker">TFG · Proyecto académico sin ánimo de lucro</p>
+    <h2 class="section-title mt-4 text-navy-900">Un dron que se construye desde cero, en abierto</h2>
+    <p class="mt-5 text-slate-600 leading-relaxed">
+      Drone&#8209;SAR es un dron autónomo que detecta personas desde el aire en tiempo real y avisa con su posición exacta — pensado para operaciones de búsqueda y rescate. Lo estoy construyendo desde cero: el propio dron, la inteligencia artificial de detección y toda la infraestructura que lo conecta con la nube.
+    </p>
+    <p class="mt-4 text-slate-600 leading-relaxed">
+      Todo el material es fácilmente accesible y está disponible en tiendas, huyendo de soluciones propietarias y cerradas que solo encarecen el proyecto. Para la IA uso software libre y gratuito — OpenCV y YOLO — sin licencias ni cajas negras.
+    </p>
+    <p class="mt-4 text-slate-600 leading-relaxed">
+      Además, todo el proceso queda documentado y en abierto, disponible para que cualquier persona pueda construir su propio dron, utilizar esta misma tecnología y adaptarla o mejorarla según sus necesidades.
+    </p>
+    <!-- TODO: sustituir "#" por la URL real de la web con la documentación técnica completa -->
+    <a href="#" class="mt-6 inline-flex items-center gap-2 font-semibold text-accent-dark hover:text-accent transition-colors">
+      Ver el proyecto en detalle
+      <span class="text-slate-400 font-normal text-sm">(próximamente)</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- DIARIO TEASER -->
+<section class="relative py-14 md:py-16 bg-navy-950 overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.06] bg-grid"></div>
+  <div class="max-w-4xl mx-auto px-6 relative flex flex-col md:flex-row items-center justify-between gap-7 text-center md:text-left reveal">
+    <div>
+      <p class="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase text-accent-light">
+        <span class="pulse-dot"></span> Actualizado día a día
+      </p>
+      <h2 class="font-display font-semibold text-2xl md:text-3xl text-white mt-3">Sigue la evolución de Drone&#8209;SAR en tiempo real</h2>
+      <p class="mt-2 text-slate-400 max-w-xl">Cada avance, cada obstáculo y cada decisión técnica, contados según van pasando.</p>
+    </div>
+    <a href="journal.html" class="shrink-0 inline-flex items-center gap-2 rounded-full bg-accent hover:bg-accent-dark transition-colors px-7 py-3.5 font-semibold text-navy-950 shadow-xl shadow-accent/25">
+      Ver el diario
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- AYUDA -->
+<section id="ayuda" class="relative py-20 md:py-28 bg-slate-50">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="max-w-2xl mx-auto text-center reveal">
+      <p class="kicker">Cómo puedes ayudar</p>
+      <h2 class="section-title mt-4 text-navy-900">Este TFG necesita tu ayuda para despegar</h2>
+      <p class="mt-5 text-slate-600 leading-relaxed">
+        Tanto si eres un particular,  como un aficionado a los drones, o incluso, como empresa, puedes ayudarme de formas muy variadas,  desde difundir mi proyecto, a colaborar con fotos y videos que tengas,  con material que ya no uses, o incluso con un mecenazgo (crowdfunding ).
+      </p>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-2 gap-6">
+      <div class="reveal collab-card overflow-hidden !p-0">
+        <img src="images/problem.jpg" alt="Costa y montañas vistas desde un dron" class="w-full h-44 object-cover">
+        <div class="p-8">
+          <div class="icon-badge icon-badge--lg">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-navy-900 text-xl mt-5">Entrena la IA con tus vídeos</h3>
+          <p class="text-slate-600 mt-3 leading-relaxed text-sm text-justify">
+            Necesito grabaciones aéreas de personas hechas con dron — en monte, mar o terrenos descampados, con distintas alturas y ángulos. Cuantos más datos reales tenga para entrenar el modelo, más eficaz será detectando personas desde el aire. Si tienes un dron y puedes grabar este tipo de vídeos, me ayudarías mucho.
+          </p>
+          <a href="mailto:nerea.gorostidi.garcia@gmail.com?subject=Quiero%20enviar%20v%C3%ADdeos%20a%C3%A9reos%20para%20Drone-SAR"
+             class="collab-link">
+            Enviar vídeos
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="reveal collab-card overflow-hidden !p-0">
+        <img src="images/sponsor.jpg" alt="Dron plegado sobre una mesa junto a mapa, mando y accesorios de vuelo" class="w-full h-44 object-cover drone-photo">
+        <div class="p-8">
+          <div class="icon-badge icon-badge--lg">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6Z"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-navy-900 text-xl mt-5">Sé patrocinador/a del material</h3>
+          <p class="text-slate-600 mt-3 leading-relaxed text-sm text-justify">
+            Al tratarse de una iniciativa académica y contar con presupuesto de estudiante, los recursos son bastante limitados. Para avanzar necesito bastante material: hacer pruebas, comparar alternativas, cubrir seguros, licencias, servicios cloud, desplazamientos y los inevitables repuestos para los «accidentes» del dron durante los tests.
+          </p>
+          <p class="text-slate-600 mt-3 leading-relaxed text-sm text-justify">
+            Por eso busco colaboradores y patrocinadores que me echen una mano con el material (hélices, baterías, controladoras, sensores...), ya sea donando componentes que tengas por casa y no uses o mediante una pequeña aportación económica. Por supuesto, todo el material y las donaciones recibidas se publicarán de forma totalmente transparente en un apartado especial de la web.
+          </p>
+          <a href="mailto:nerea.gorostidi.garcia@gmail.com?subject=Quiero%20patrocinar%20Drone-SAR"
+             class="collab-link">
+            Quiero patrocinar
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-10 text-center text-sm text-slate-500 reveal">
+      ¿Tienes otra idea para ayudar?
+      <a href="mailto:nerea.gorostidi.garcia@gmail.com?subject=Quiero%20colaborar%20con%20Drone-SAR" class="font-semibold text-accent-dark hover:text-accent transition-colors">Escríbeme</a>, toda ayuda cuenta.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-navy-950 border-t border-white/10 pt-14 pb-8">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
+      <div>
+        <a href="#top" class="flex items-center gap-2 font-display font-semibold text-lg text-white">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent/15 border border-accent/40 text-accent">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+          </span>
+          Drone&#8209;SAR
+        </a>
+        <p class="text-sm text-slate-500 mt-4 leading-relaxed max-w-xs">
+          Trabajo de Fin de Grado en Ingeniería de Telecomunicaciones — Universidad Carlos III de Madrid (UC3M). Proyecto académico sin ánimo de lucro.
+        </p>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-widest text-slate-500 mb-4">Navegación</p>
+        <nav class="flex flex-col gap-2.5 text-sm text-slate-400">
+          <a href="#que-es" class="hover:text-white transition-colors">Qué es</a>
+          <a href="journal.html" class="hover:text-white transition-colors">Diario</a>
+          <a href="#ayuda" class="hover:text-white transition-colors">Cómo ayudar</a>
+        </nav>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-widest text-slate-500 mb-4">Contacto</p>
+        <a href="mailto:nerea.gorostidi.garcia@gmail.com" class="text-accent-light hover:text-accent transition-colors text-sm break-all">nerea.gorostidi.garcia@gmail.com</a>
+        <p class="text-slate-500 text-sm mt-4 leading-relaxed">Gracias por hacer volar este proyecto.</p>
+      </div>
+    </div>
+
+    <div class="pt-8 flex flex-col md:flex-row gap-4 md:items-center md:justify-between text-xs text-slate-600">
+      <p>&copy; 2026 Drone&#8209;SAR. Proyecto académico de código abierto.</p>
+      <p class="leading-relaxed">
+        Fotos vía Unsplash:
+        <a href="https://unsplash.com/@bernddittrich" target="_blank" rel="noopener" class="underline hover:text-slate-400">Bernd Dittrich</a>,
+        <a href="https://unsplash.com/@uranw" target="_blank" rel="noopener" class="underline hover:text-slate-400">Uran Wang</a>,
+        <a href="https://unsplash.com/@ndg_visuals" target="_blank" rel="noopener" class="underline hover:text-slate-400">Nicholas Grande</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
