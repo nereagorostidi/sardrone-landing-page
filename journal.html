@@ -65,7 +65,7 @@
     </p>
     <div class="j-statusbar mt-6">
       <span class="j-live"><span class="pulse-dot"></span>SISTEMA OPERATIVO</span>
-      <span>· ÚLT. ACTUALIZACIÓN: 14 AGO 2026</span>
+      <span>· ÚLT. ACTUALIZACIÓN: 18 AGO 2026</span>
     </div>
   </div>
 </section>
@@ -74,10 +74,10 @@
 <section class="relative bg-navy-900 border-t border-white/5 py-7">
   <div class="max-w-5xl mx-auto px-6">
     <div class="j-stats">
-      <div class="j-stat"><b>24</b><span>Registros</span></div>
-      <div class="j-stat"><b>33</b><span>Días documentados</span></div>
+      <div class="j-stat"><b>28</b><span>Registros</span></div>
+      <div class="j-stat"><b>37</b><span>Días documentados</span></div>
       <div class="j-stat"><b>3</b><span>Repos en GitHub</span></div>
-      <div class="j-stat"><b>7</b><span>Hitos alcanzados</span></div>
+      <div class="j-stat"><b>9</b><span>Hitos alcanzados</span></div>
     </div>
   </div>
 </section>
@@ -87,15 +87,15 @@
   <div class="max-w-5xl mx-auto px-6">
     <div class="j-estado">
       <div class="j-estado-head">
-        <span class="j-estado-date">Situación actual · 14 ago 2026</span>
+        <span class="j-estado-date">Situación actual · 18 ago 2026</span>
         <h2>Dónde está el proyecto ahora</h2>
       </div>
       <p>El proyecto tiene ya resuelta toda la base sobre la que se construirá el resto del sistema. Está cerrada la parte normativa —certificado de piloto A1/A3 y número de operador AESA— y el acceso a un espacio de vuelo seguro, gracias a la federación en el club Alas de Galapagar, cuya licencia de socio incluye el seguro obligatorio. He realizado además un primer vuelo de referencia, cuyo registro GPS me sirve para planificar misiones en simulación.</p>
-      <p>En el plano técnico, la infraestructura extremo a extremo está operativa. La adquisición de datos en el nodo <i>edge</i> se ha organizado por dominios independientes (ambiental, sistema, vuelo y detección), cada uno como un proceso propio con su buffer local en SQLite y publicando bajo una estructura jerárquica de topics <code class="j-code">sar/{dron_id}/{dominio}</code>, con almacenamiento intermedio local para no perder datos ante cortes de red. El sensor ambiental BME680 sobre la Raspberry Pi 5 alimenta ya el dominio ambiental, cuyas lecturas llegan por MQTT al servidor en la nube (AWS EC2 con Mosquitto e InfluxDB). El dominio y los servidores web están en marcha, y tanto las páginas como los servicios dinámicos (API REST e InfluxDB) se sirven ya por HTTPS con certificado propio, accediéndose a estos últimos a través de un <i>reverse proxy</i> en nginx que permite mantener cerrados sus puertos al exterior.</p>
+      <p>En el plano técnico, la infraestructura extremo a extremo está operativa. La adquisición de datos en el nodo <i>edge</i> se ha organizado por dominios independientes (ambiental, sistema, vuelo y detección), cada uno como un proceso propio con su buffer local en SQLite y publicando bajo una estructura jerárquica de topics <code class="j-code">sar/{dron_id}/{dominio}</code>, con almacenamiento intermedio local para no perder datos ante cortes de red. El sensor ambiental BME680 sobre la Raspberry Pi 5 alimenta ya el dominio ambiental, cuyas lecturas llegan por MQTT al servidor en la nube (AWS EC2 con Mosquitto e InfluxDB). El enlace entre el nodo <i>edge</i> y la nube ya no depende del entorno de desarrollo: he configurado un módem USB 4G/LTE con una SIM de DIGI —con su propio perfil APN y el PIN desactivado para que arranque de forma autónoma—, de modo que el dron sale a Internet por red celular, reservando la Wi-Fi como enlace local alternativo. Sobre esa conectividad he levantado además una VPN en malla (<i>mesh</i>) con Tailscale que une el servidor, la Raspberry y mi equipo en una red privada Zero Trust, cifrada de extremo a extremo y sin necesidad de abrir puertos al exterior. Los servidores web están en marcha, y tanto las páginas como los servicios dinámicos (API REST e InfluxDB) se sirven ya por HTTPS con certificado propio, accediéndose a estos últimos a través de un <i>reverse proxy</i> en nginx que permite mantener cerrados sus puertos al exterior.</p>
       <p>En cuanto al vuelo, he llevado el control autónomo de la simulación a la Raspberry Pi: la Pi comanda el dron simulado (Mission Planner + ArduPilot SITL) por MAVLink a través de la red. Sobre esa base he montado el control por MQTT —un publicador en el EC2 y un receptor en la Pi que traduce las órdenes a MAVLink— y una API REST con una página de botones para teleoperar el dron (armar, despegar, aterrizar, RTL, misión) desde el navegador, ya validada contra el simulador. Este panel se ha ampliado además con un selector que permite elegir a qué dron (<code class="j-code">dron-01</code> / <code class="j-code">dron-02</code>) se dirige cada comando, y con nuevos botones de gestión remota del nodo <i>edge</i> —como apagar la Raspberry Pi o ajustar en caliente parámetros de funcionamiento (cada cuánto envía datos el dominio de sistema o el intervalo <i>anti-spam</i> de las alertas)—. Tanto la API como el receptor se ejecutan como servicios <code class="j-code">systemd</code>, de modo que arrancan solos y se reinician ante cualquier interrupción.</p>
       <p>En el apartado de visión artificial, he desarrollado el <i>pipeline</i> de detección de personas con YOLO y lo he validado sobre vídeo real, ejecutándolo en mi propio equipo (todavía sin el acelerador Hailo y sin desplegar en la Raspberry Pi). Cuando el sistema detecta a una persona, genera una alerta que se publica por MQTT con el mismo esquema <i>store-and-forward</i> que el resto de dominios, incluyendo la caja de la detección, la posición del dron y una foto del fotograma con las coordenadas y la marca temporal superpuestas. En paralelo, he empezado a construir el dataset con Roboflow y ya he capturado las primeras imágenes para el entrenamiento.</p>
-      <p>El repositorio del servidor se ha reorganizado por carpetas para separar las páginas web, el panel de control y la API, y se trabaja ahora sobre una rama <code class="j-code">develop</code> que mantiene la rama principal con la versión estable.</p>
-      <p><b>Próximos pasos:</b> ampliar el dataset de detección con muchas más imágenes aéreas para entrenar el modelo definitivo, y montar la VPN que dé conectividad segura entre el nodo edge y la nube. En paralelo, ensamblar el dron definitivo (pendiente de comprar el material) e incorporar autenticación a la API y cifrado MQTT antes de conectar la cadena de mando a la aeronave real.</p>
+      <p>El repositorio del servidor se ha reorganizado por carpetas para separar las páginas web, el panel de control y la API, y se trabaja ahora sobre una rama <code class="j-code">develop</code> que mantiene la rama principal con la versión estable. El fallo de la tarjeta microSD que dejó temporalmente fuera de servicio a la Raspberry Pi está resuelto: se ha sustituido y repetido la instalación de la imagen, además de rehacer el script del receptor, que no estaba subido al repositorio. He puesto en marcha también la presencia web pública del proyecto: una landing de colaboración para captar vídeos aéreos y patrocinios, y una web técnica que documenta el sistema completo (arquitectura de comunicaciones, hardware, software y cloud, IA y marco del proyecto).</p>
+      <p><b>Próximos pasos:</b> ampliar el dataset de detección con muchas más imágenes aéreas para entrenar el modelo definitivo. En paralelo, ensamblar el dron definitivo e incorporar autenticación a la API y cifrado MQTT antes de conectar la cadena de mando a la aeronave real.</p>
     </div>
   </div>
 </section>
@@ -597,7 +597,7 @@
       </ul>
     </details>
 
-    <details class="j-phase" data-cats="sistema ia" open>
+    <details class="j-phase" data-cats="sistema ia">
       <summary class="j-phase-summary">
         <span class="j-date">12 agosto</span>
         <span class="j-tag j-tag--sistema">Sistema</span>
@@ -633,7 +633,7 @@
       </ul>
     </details>
 
-    <details class="j-phase" data-cats="vuelo memoria" open>
+    <details class="j-phase" data-cats="vuelo memoria">
       <summary class="j-phase-summary">
         <span class="j-date">13 agosto</span>
         <span class="j-tag j-tag--vuelo">Vuelo</span>
@@ -650,6 +650,88 @@
           </ul>
         </li>
         <li>Creación de la <b>landing page</b> para pedir colaboración en el proyecto: ayuda en la compra de materiales o patrocinio, y también de personas que puedan mandarme vídeos que aporten valor a mi dataset de detección de personas: <a class="j-link" href="https://drone-sar.vercel.app/" target="_blank" rel="noopener">drone-sar.vercel.app</a></li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">14 agosto</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Doy por terminada la <b>landing de micromecenazgo</b> (<a class="j-link" href="https://drone-sar.vercel.app/" target="_blank" rel="noopener">drone-sar.vercel.app</a>): repaso de los textos finales, la sección de colaboración con los dos tipos de ayuda (vídeos aéreos y patrocinio), y añadido del journal. Publicada y operativa.</li>
+        <li>Empiezo a montar la estructura de la <b>web técnica</b> del proyecto (<i>Guardian Eye</i>), la página donde desarrollaré todo el proyecto a fondo: una documentación navegable, dividida en secciones, que recogerá el sistema completo de extremo a extremo.
+          <ul class="j-sub">
+            <li>Parte de <b>proyecto</b>: introducción, objetivos, metodología, filosofía y normativa.</li>
+            <li>Parte de <b>arquitectura</b>: comunicaciones, hardware y software/cloud.</li>
+            <li>Parte de <b>exploración</b>: inteligencia artificial, multimedia, impacto y colaboradores.</li>
+          </ul>
+        </li>
+        <li>Publicación en YouTube del vídeo del primer test de <b>detección de personas</b>.</li>
+        <li>Repaso a fondo del perfil de <b>GitHub</b>: descripciones cortas para los seis repos con el patrón <code class="j-code">TFG ·</code>, definición de <i>topics</i> y creación del README del perfil con <i>badges</i>.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">15 agosto</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-hito">★ Web técnica publicada</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Continúo con la <b>web técnica</b> y la dejo bastante cerrada, aunque todavía me queda algún detalle por pulir. Desarrollo el contenido de las secciones principales:
+          <ul class="j-sub">
+            <li><b>Arquitectura</b>: comunicaciones (con la redundancia multicanal), hardware y software/cloud.</li>
+            <li><b>Inteligencia artificial</b>: sistema de detección.</li>
+            <li>Páginas de <b>proyecto</b>.</li>
+          </ul>
+        </li>
+        <li>Dejo la web técnica enlazada con la landing, los repos de GitHub y el journal.</li>
+        <li>Repaso a fondo del perfil de <b>GitHub</b>: descripciones cortas para los seis repos con el patrón <code class="j-code">TFG ·</code>, definición de <i>topics</i> y creación del README del perfil con <i>badges</i>.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="memoria sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">16 agosto</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Repaso de la página web del proyecto, con modificación de alguna sección.</li>
+        <li>Reorganización de la estructura de la <b>memoria</b> para reflejar la arquitectura IoT multidominio. Decisión principal: partir el antiguo capítulo 6 en dos:
+          <ul class="j-sub">
+            <li><b>Cap. 6</b> → adquisición de datos IoT (edge a nube, los cuatro dominios, store-and-forward, InfluxDB).</li>
+            <li><b>Cap. 7</b> → servicios web y control remoto (DNS, nginx, TLS, API REST, cadena de mando).</li>
+          </ul>
+        </li>
+        <li>El <b>capítulo 5</b> se queda con el control de vuelo local (MAVLink, GCS, pymavlink, SITL); la detección (YOLO/Hailo) pasa al <b>capítulo 8</b> y la validación al <b>capítulo 9</b>.</li>
+        <li>Añado figuras nuevas para que quede más claro: 6.2 (arquitectura multidominio), 6.3 (store-and-forward genérico), 5.3 (secuencia de misión autónoma), 7.5 (cadena de mando completa) y 4.1 (arquitectura general del sistema).</li>
+        <li>Compra de <b>tarjeta SIM prepago</b> <span class="j-cost">10 €</span>.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema" open>
+      <summary class="j-phase-summary">
+        <span class="j-date">17 agosto</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-hito">★ VPN en malla y enlace 4G</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Repaso de la memoria.</li>
+        <li>Levanto una <b>VPN en malla</b> (<i>mesh</i>) con <b>Tailscale</b> para conectar de forma segura los tres equipos (servidor AWS, Raspberry y mi PC). Funciona como red <b>Zero Trust</b>: cada equipo recibe su propia IP dentro de la red y todos se comunican de forma cifrada de extremo a extremo, sin abrir puertos al exterior.
+          <ul class="j-sub">
+            <li>Dejo Tailscale en el autoarranque de la máquina de AWS y de la Raspberry, para que se unan solas a la malla al encenderse.</li>
+            <li>Configuro el módem <b>USB 4G/LTE</b>: la Raspberry lo reconoce como interfaz de red, pero no sale a Internet hasta crear un perfil <b>APN de DIGI</b> (SIM de prepago DIGI).</li>
+            <li>Desactivo el <b>PIN de la SIM</b> para que el módem arranque solo, sin meterlo a mano.</li>
+            <li>Reviso las tablas de rutas de la Raspberry: por defecto todo el tráfico sale por 4G/LTE, y la Wi-Fi solo entra si se retira el pincho USB (a mano o por script) o para conectarme a un equipo de la misma red local.</li>
+          </ul>
+        </li>
+        <li><b>Mejora futura:</b> un script en Python que vigile la cobertura 4G y desactive esa ruta si se cae. <span class="j-cost">PENDIENTE</span></li>
       </ul>
     </details>
 
@@ -740,6 +822,19 @@
           <span class="j-tag j-tag--sistema">Sistema</span>
           <span class="j-tag j-tag--ia">IA</span>
           <span class="j-tag j-tag--vuelo">Vuelo</span>
+          <span class="j-tag j-tag--memoria">Memoria</span>
+        </div>
+      </div>
+
+      <div class="j-week">
+        <div class="j-week-head">
+          <span class="j-week-title">Semana del 14 al 17 de agosto</span>
+          <span class="j-week-range">Semana 34</span>
+          <span class="j-week-count">4 registros</span>
+        </div>
+        <p>Publicación de la landing page de colaboración y arranque y cierre de la web técnica del proyecto (Guardian Eye), reestructuración de la memoria en torno a la arquitectura IoT multidominio, y despliegue de conectividad robusta en el nodo edge: enlace 4G/LTE con SIM de DIGI y VPN en malla con Tailscale.</p>
+        <div class="j-week-tags">
+          <span class="j-tag j-tag--sistema">Sistema</span>
           <span class="j-tag j-tag--memoria">Memoria</span>
         </div>
       </div>
