@@ -649,7 +649,7 @@
             <li>En cuanto entran los <i>heartbeats</i> por el nuevo puerto, el receptor se suscribe correctamente y el dron vuelve a armar de extremo a extremo sin problemas.</li>
           </ul>
         </li>
-        <li>Creación de la <b>landing page</b> para pedir colaboración en el proyecto: ayuda en la compra de materiales o patrocinio, y también de personas que puedan mandarme vídeos que aporten valor a mi dataset de detección de personas: <a class="j-link" href="https://drone-sar.vercel.app/" target="_blank" rel="noopener">drone-sar.vercel.app</a></li>
+        <li>Creación de la <b>landing page</b> para pedir colaboración en el proyecto: ayuda en la compra de materiales o patrocinio, y también de personas que puedan mandarme vídeos que aporten valor a mi dataset de detección de personas: <a class="j-link" href="https://drone-sar.gorostiditfg.com/" target="_blank" rel="noopener">drone-sar.gorostiditfg.com</a></li>
       </ul>
     </details>
 
@@ -660,7 +660,7 @@
         <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
       </summary>
       <ul class="j-tasks">
-        <li>Doy por terminada la <b>landing de micromecenazgo</b> (<a class="j-link" href="https://drone-sar.vercel.app/" target="_blank" rel="noopener">drone-sar.vercel.app</a>): repaso de los textos finales, la sección de colaboración con los dos tipos de ayuda (vídeos aéreos y patrocinio), y añadido del journal. Publicada y operativa.</li>
+        <li>Doy por terminada la <b>landing de micromecenazgo</b> (<a class="j-link" href="https://drone-sar.gorostiditfg.com/" target="_blank" rel="noopener">drone-sar.gorostiditfg.com</a>): repaso de los textos finales, la sección de colaboración con los dos tipos de ayuda (vídeos aéreos y patrocinio), y añadido del journal. Publicada y operativa.</li>
         <li>Empiezo a montar la estructura de la <b>web técnica</b> del proyecto (<i>Guardian Eye</i>), la página donde desarrollaré todo el proyecto a fondo: una documentación navegable, dividida en secciones, que recogerá el sistema completo de extremo a extremo.
           <ul class="j-sub">
             <li>Parte de <b>proyecto</b>: introducción, objetivos, metodología, filosofía y normativa.</li>
@@ -741,26 +741,25 @@
 
       <div class="j-week">
         <div class="j-week-head">
-          <span class="j-week-title">Semana del 11 al 12 de julio</span>
-          <span class="j-week-range">Semana 28</span>
-          <span class="j-week-count">3 registros</span>
+          <span class="j-week-title">Implementado hasta el 11 de julio</span>
+          <span class="j-week-range">Punto de partida</span>
+          <span class="j-week-count">1 registro</span>
         </div>
-        <p>Arranque del proyecto: normativa cerrada (certificado A1/A3 de AESA y número de operador), inscripción en el club Alas de Galapagar, primeras compras (Raspberry Pi 5 y sensor BME680), infraestructura cloud inicial en AWS (EC2, Mosquitto, InfluxDB), primeros scripts publicados en GitHub, dominio propio registrado y primer vuelo real de un dron.</p>
+        <p>Base sobre la que arranca el proyecto. En lo normativo: certificado A1/A3 de AESA y número de operador obtenidos, e inscripción como socia en el club Alas de Galapagar para volar sin necesidad de permisos adicionales y con el seguro incluido. En lo técnico: compra de la Raspberry Pi 5 y del sensor ambiental BME680 con la conexión ya configurada, una instancia EC2 en AWS con el broker Mosquitto e IP elástica, y el primer flujo de datos de extremo a extremo (<code class="j-code">sensor.py</code> → MQTT → <code class="j-code">mqtt_to_influx.py</code> → InfluxDB) con arquitectura <i>store-and-forward</i> para no perder lecturas. Todo ello arrancando solo mediante servicios <code class="j-code">systemd</code>, publicado en dos repositorios de GitHub, sobre el dominio propio <code class="j-code">gorostiditfg.com</code> y con dos primeras páginas web (presentación y control) ya creadas.</p>
         <div class="j-week-tags">
           <span class="j-tag j-tag--memoria">Memoria</span>
           <span class="j-tag j-tag--hardware">Hardware</span>
           <span class="j-tag j-tag--sistema">Sistema</span>
-          <span class="j-tag j-tag--vuelo">Vuelo</span>
         </div>
       </div>
 
       <div class="j-week">
         <div class="j-week-head">
-          <span class="j-week-title">Semana del 13 al 17 de julio</span>
-          <span class="j-week-range">Semana 29</span>
-          <span class="j-week-count">5 registros</span>
+          <span class="j-week-title">Semana del 11 al 17 de julio</span>
+          <span class="j-week-range">Semana 1</span>
+          <span class="j-week-count">7 registros</span>
         </div>
-        <p>Consolidación de los servidores web (nginx, subdominios), primer control autónomo del dron simulado desde la Raspberry Pi por MAVLink, primer control por MQTT con API REST y panel web funcionando de extremo a extremo, y detección y resolución de un fallo de tarjeta microSD.</p>
+        <p>Primera semana completa de desarrollo: servidores web con nginx y subdominios propios (<code class="j-code">www</code>, <code class="j-code">control</code>, <code class="j-code">influxdb</code>) sobre el dominio de Cloudflare, y limpieza de la gestión de claves SSH. Primer vuelo real de un dron en el club de Galapagar, con el número de operador ya pegado en el aparato. El control autónomo del dron simulado se lleva a la Raspberry Pi por MAVLink (arquitectura <i>edge-first</i>), y sobre esa base se monta el control por MQTT y una API REST con panel web de botones para teleoperar el dron. Se activa HTTPS en todas las páginas —apareciendo el primer bloqueo por <i>mixed content</i>— y se reorganiza el repositorio del servidor en GitHub. La semana se cierra con la detección de un fallo en la tarjeta microSD de la Raspberry Pi.</p>
         <div class="j-week-tags">
           <span class="j-tag j-tag--sistema">Sistema</span>
           <span class="j-tag j-tag--vuelo">Vuelo</span>
@@ -772,10 +771,10 @@
       <div class="j-week">
         <div class="j-week-head">
           <span class="j-week-title">Semana del 20 al 22 de julio</span>
-          <span class="j-week-range">Semana 30</span>
+          <span class="j-week-range">Semana 2</span>
           <span class="j-week-count">3 registros</span>
         </div>
-        <p>Recuperación tras el fallo de la tarjeta SD, redacción de la memoria del TFG (arquitectura IoT) y resolución definitiva del problema de <i>mixed content</i> en HTTPS.</p>
+        <p>Recuperación completa tras el fallo de la tarjeta microSD: nueva tarjeta grabada, repositorio clonado desde GitHub y <code class="j-code">receptor.py</code> reescrito por ser el único script que no estaba respaldado. Comienza la redacción de la memoria del TFG (arquitectura IoT con EC2, BME680 y MQTT), y se resuelve definitivamente el problema de <i>mixed content</i> creando el subdominio <code class="j-code">api.gorostiditfg.com</code> con <i>reverse proxy</i> en nginx y certificado TLS.</p>
         <div class="j-week-tags">
           <span class="j-tag j-tag--hardware">Hardware</span>
           <span class="j-tag j-tag--memoria">Memoria</span>
@@ -786,10 +785,10 @@
       <div class="j-week">
         <div class="j-week-head">
           <span class="j-week-title">Semana del 27 al 30 de julio</span>
-          <span class="j-week-range">Semana 31</span>
+          <span class="j-week-range">Semana 3</span>
           <span class="j-week-count">4 registros</span>
         </div>
-        <p>Semana centrada en la memoria: reorganización de capítulos, redacción de normativa y estado del arte, bibliografía en formato IEEE, y primer contacto con Roboflow de cara al futuro dataset de detección de personas.</p>
+        <p>Semana centrada en la memoria del TFG: reorganización de capítulos (control de vuelo separado de la arquitectura IoT), reconstrucción del estado del arte, redacción de la normativa (Reglamento UE 2019/947, categoría A3, <i>Remote ID</i>, RD 517/2024) y bibliografía en formato IEEE. También primer contacto con Roboflow de cara al futuro dataset de detección de personas.</p>
         <div class="j-week-tags">
           <span class="j-tag j-tag--memoria">Memoria</span>
           <span class="j-tag j-tag--ia">IA</span>
@@ -798,41 +797,40 @@
 
       <div class="j-week">
         <div class="j-week-head">
-          <span class="j-week-title">Semana del 5 al 9 de agosto</span>
-          <span class="j-week-range">Semana 32</span>
-          <span class="j-week-count">5 registros</span>
+          <span class="j-week-title">Semana del 5 al 7 de agosto</span>
+          <span class="j-week-range">Semana 4</span>
+          <span class="j-week-count">3 registros</span>
         </div>
-        <p>Piezas de dron reutilizadas de un hexacóptero prestado, lista de compra definitiva, primer modelo YOLO entrenado con Roboflow, presupuesto recibido y kit de vuelo reservado, y primeras grabaciones reales para el dataset de detección de personas.</p>
+        <p>Un socio del club presta un hexacóptero de fibra de carbono para reutilizar piezas, lo que permite definir el plan de compra de componentes nuevos (Pixhawk 6C, GPS, telemetría, batería LiPo) y contactar con RC-Innovations. En paralelo, primera práctica completa con Roboflow y Ultralytics: dataset de prueba con frutas, entrenamiento de un primer modelo YOLO en local, ajuste del número de épocas, inferencia sobre vídeo y publicación del código en GitHub.</p>
         <div class="j-week-tags">
           <span class="j-tag j-tag--hardware">Hardware</span>
           <span class="j-tag j-tag--ia">IA</span>
-          <span class="j-tag j-tag--vuelo">Vuelo</span>
-          <span class="j-tag j-tag--memoria">Memoria</span>
         </div>
       </div>
 
       <div class="j-week">
         <div class="j-week-head">
-          <span class="j-week-title">Semana del 10 al 13 de agosto</span>
-          <span class="j-week-range">Semana 33</span>
-          <span class="j-week-count">4 registros</span>
+          <span class="j-week-title">Semana del 8 al 14 de agosto</span>
+          <span class="j-week-range">Semana 5</span>
+          <span class="j-week-count">7 registros</span>
         </div>
-        <p>Diseño e implementación de la arquitectura de datos definitiva (colectores independientes por dominio), primera prueba de la detección de personas con YOLO sobre vídeo real, depuración del control web y del enlace MAVLink con Mission Planner, y publicación de la landing page del proyecto.</p>
+        <p>Semana de mucho avance: se recibe presupuesto y se reserva el kit de vuelo con RC-Innovations, se graban los primeros vídeos reales para el dataset de detección de personas (35 imágenes) y se diseña e implementa la arquitectura de datos definitiva del nodo edge, con un proceso independiente por dominio (ambiental, sistema, vuelo, detección) y topics MQTT jerárquicos. Se prueba con éxito la detección de personas con YOLO sobre vídeo real, y se depuran varios fallos del panel de control web (<i>mixed content</i>, pérdida del <code class="j-code">drone_id</code>, conflicto de puertos con Mission Planner), añadiendo un selector para elegir el dron. La semana se cierra con la publicación de la landing page de colaboración y el arranque de la web técnica del proyecto (Guardian Eye).</p>
         <div class="j-week-tags">
           <span class="j-tag j-tag--sistema">Sistema</span>
           <span class="j-tag j-tag--ia">IA</span>
           <span class="j-tag j-tag--vuelo">Vuelo</span>
+          <span class="j-tag j-tag--hardware">Hardware</span>
           <span class="j-tag j-tag--memoria">Memoria</span>
         </div>
       </div>
 
       <div class="j-week">
         <div class="j-week-head">
-          <span class="j-week-title">Semana del 14 al 17 de agosto</span>
-          <span class="j-week-range">Semana 34</span>
-          <span class="j-week-count">4 registros</span>
+          <span class="j-week-title">Semana del 15 al 17 de agosto</span>
+          <span class="j-week-range">Semana 6</span>
+          <span class="j-week-count">3 registros</span>
         </div>
-        <p>Publicación de la landing page de colaboración y arranque y cierre de la web técnica del proyecto (Guardian Eye), reestructuración de la memoria en torno a la arquitectura IoT multidominio, y despliegue de conectividad robusta en el nodo edge: enlace 4G/LTE con SIM de DIGI y VPN en malla con Tailscale.</p>
+        <p>Continúa y se cierra la web técnica del proyecto (Guardian Eye), con las secciones de arquitectura, inteligencia artificial y proyecto ya desarrolladas y enlazadas con la landing, GitHub y el journal. Se reorganiza la memoria separando la adquisición de datos IoT (cap. 6) de los servicios web y control remoto (cap. 7), y se despliega conectividad robusta en el nodo edge: una VPN en malla Zero Trust con Tailscale y un enlace 4G/LTE con SIM de DIGI como salida a Internet principal.</p>
         <div class="j-week-tags">
           <span class="j-tag j-tag--sistema">Sistema</span>
           <span class="j-tag j-tag--memoria">Memoria</span>
