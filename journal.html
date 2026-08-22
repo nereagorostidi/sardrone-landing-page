@@ -66,7 +66,7 @@
     </p>
     <div class="j-statusbar mt-6">
       <span class="j-live"><span class="pulse-dot"></span>SISTEMA OPERATIVO</span>
-      <span>· ÚLT. ACTUALIZACIÓN: 18 AGO 2026</span>
+      <span>· ÚLT. ACTUALIZACIÓN: 22 AGO 2026</span>
     </div>
   </div>
 </section>
@@ -75,10 +75,10 @@
 <section class="relative bg-navy-900 border-t border-white/5 py-7">
   <div class="max-w-5xl mx-auto px-6">
     <div class="j-stats">
-      <div class="j-stat"><b>28</b><span>Registros</span></div>
-      <div class="j-stat"><b>37</b><span>Días documentados</span></div>
+      <div class="j-stat"><b>32</b><span>Registros</span></div>
+      <div class="j-stat"><b>41</b><span>Días documentados</span></div>
       <div class="j-stat"><b>5</b><span>Repos en GitHub</span></div>
-      <div class="j-stat"><b>9</b><span>Hitos alcanzados</span></div>
+      <div class="j-stat"><b>13</b><span>Hitos alcanzados</span></div>
     </div>
   </div>
 </section>
@@ -88,15 +88,16 @@
   <div class="max-w-5xl mx-auto px-6">
     <div class="j-estado">
       <div class="j-estado-head">
-        <span class="j-estado-date">Situación actual · 18 ago 2026</span>
+        <span class="j-estado-date">Situación actual · 22 ago 2026</span>
         <h2>Dónde está el proyecto ahora</h2>
       </div>
       <p>El proyecto tiene ya resuelta toda la base sobre la que se construirá el resto del sistema. Está cerrada la parte normativa —certificado de piloto A1/A3 y número de operador AESA— y el acceso a un espacio de vuelo seguro, gracias a la federación en el club Alas de Galapagar, cuya licencia de socio incluye el seguro obligatorio. He realizado además un primer vuelo de referencia, cuyo registro GPS me sirve para planificar misiones en simulación.</p>
-      <p>En el plano técnico, la infraestructura extremo a extremo está operativa. La adquisición de datos en el nodo <i>edge</i> se ha organizado por dominios independientes (ambiental, sistema, vuelo y detección), cada uno como un proceso propio con su buffer local en SQLite y publicando bajo una estructura jerárquica de topics <code class="j-code">sar/{dron_id}/{dominio}</code>, con almacenamiento intermedio local para no perder datos ante cortes de red. El sensor ambiental BME680 sobre la Raspberry Pi 5 alimenta ya el dominio ambiental, cuyas lecturas llegan por MQTT al servidor en la nube (AWS EC2 con Mosquitto e InfluxDB). El enlace entre el nodo <i>edge</i> y la nube ya no depende del entorno de desarrollo: he configurado un módem USB 4G/LTE con una SIM de DIGI —con su propio perfil APN y el PIN desactivado para que arranque de forma autónoma—, de modo que el dron sale a Internet por red celular, reservando la Wi-Fi como enlace local alternativo. Sobre esa conectividad he levantado además una VPN en malla (<i>mesh</i>) con Tailscale que une el servidor, la Raspberry y mi equipo en una red privada Zero Trust, cifrada de extremo a extremo y sin necesidad de abrir puertos al exterior. Los servidores web están en marcha, y tanto las páginas como los servicios dinámicos (API REST e InfluxDB) se sirven ya por HTTPS con certificado propio, accediéndose a estos últimos a través de un <i>reverse proxy</i> en nginx que permite mantener cerrados sus puertos al exterior.</p>
-      <p>En cuanto al vuelo, he llevado el control autónomo de la simulación a la Raspberry Pi: la Pi comanda el dron simulado (Mission Planner + ArduPilot SITL) por MAVLink a través de la red. Sobre esa base he montado el control por MQTT —un publicador en el EC2 y un receptor en la Pi que traduce las órdenes a MAVLink— y una API REST con una página de botones para teleoperar el dron (armar, despegar, aterrizar, RTL, misión) desde el navegador, ya validada contra el simulador. Este panel se ha ampliado además con un selector que permite elegir a qué dron (<code class="j-code">dron-01</code> / <code class="j-code">dron-02</code>) se dirige cada comando, y con nuevos botones de gestión remota del nodo <i>edge</i> —como apagar la Raspberry Pi o ajustar en caliente parámetros de funcionamiento (cada cuánto envía datos el dominio de sistema o el intervalo <i>anti-spam</i> de las alertas)—. Tanto la API como el receptor se ejecutan como servicios <code class="j-code">systemd</code>, de modo que arrancan solos y se reinician ante cualquier interrupción.</p>
-      <p>En el apartado de visión artificial, he desarrollado el <i>pipeline</i> de detección de personas con YOLO y lo he validado sobre vídeo real, ejecutándolo en mi propio equipo (todavía sin el acelerador Hailo y sin desplegar en la Raspberry Pi). Cuando el sistema detecta a una persona, genera una alerta que se publica por MQTT con el mismo esquema <i>store-and-forward</i> que el resto de dominios, incluyendo la caja de la detección, la posición del dron y una foto del fotograma con las coordenadas y la marca temporal superpuestas. En paralelo, he empezado a construir el dataset con Roboflow y ya he capturado las primeras imágenes para el entrenamiento.</p>
+      <p>En el plano técnico, la infraestructura extremo a extremo está operativa. La adquisición de datos en el nodo <i>edge</i> se ha organizado por dominios independientes (ambiental, sistema, vuelo y detección), cada uno como un proceso propio con su buffer local en SQLite y publicando bajo una estructura jerárquica de topics <code class="j-code">dronsar/{dron_id}/{dominio}</code>, con almacenamiento intermedio local para no perder datos ante cortes de red. La cadena de ingesta es genérica y admite varios drones de forma simultánea: he verificado que dos fuentes independientes llegan y se registran correctamente en la base de datos como <code class="j-code">dron-01</code> y <code class="j-code">dron-02</code>. El sensor ambiental BME680 sobre la Raspberry Pi 5 alimenta ya el dominio ambiental, cuyas lecturas llegan por MQTT al servidor en la nube (AWS EC2 con Mosquitto e InfluxDB). El enlace entre el nodo <i>edge</i> y la nube ya no depende del entorno de desarrollo: he configurado un módem USB 4G/LTE con una SIM de DIGI —con su propio perfil APN y el PIN desactivado para que arranque de forma autónoma—, de modo que el dron sale a Internet por red celular, reservando la Wi-Fi como enlace local alternativo. Sobre esa conectividad he levantado además una VPN en malla (<i>mesh</i>) con Tailscale que une el servidor, la Raspberry y mi equipo en una red privada Zero Trust, cifrada de extremo a extremo y sin necesidad de abrir puertos al exterior. Los servidores web están en marcha, y tanto las páginas como los servicios dinámicos (API REST e InfluxDB) se sirven ya por HTTPS con certificado propio, accediéndose a estos últimos a través de un <i>reverse proxy</i> en nginx que permite mantener cerrados sus puertos al exterior. A estos servicios se suma un servidor de streaming propio (MediaMTX) sobre el EC2, que recibe el vídeo del dron por RTSP a través de la VPN y lo retransmite por WebRTC en baja latencia, servido igualmente por HTTPS mediante nginx en su propio subdominio.</p>
+      <p>En cuanto al vuelo, he llevado el control autónomo de la simulación a la Raspberry Pi: la Pi comanda el dron simulado (Mission Planner + ArduPilot SITL) por MAVLink a través de la red. Sobre esa base he montado el control por MQTT —un publicador en el EC2 y un receptor en la Pi que traduce las órdenes a MAVLink— y una API REST con una página de botones para teleoperar el dron (armar, despegar, aterrizar, RTL, misión) desde el navegador, ya validada contra el simulador. Este panel se ha ampliado además con un selector que permite elegir a qué dron (<code class="j-code">dron-01</code> / <code class="j-code">dron-02</code>) se dirige cada comando, y con nuevos botones de gestión remota del nodo <i>edge</i> —como apagar la Raspberry Pi o ajustar en caliente parámetros de funcionamiento (cada cuánto envía datos el dominio de sistema o el intervalo <i>anti-spam</i> de las alertas)—. Tanto la API como el receptor se ejecutan como servicios <code class="j-code">systemd</code>, de modo que arrancan solos y se reinician ante cualquier interrupción. El panel incorpora ahora también la vista en directo de la cámara del dron y el control de grabación (empezar/parar), y se ha empaquetado como PWA para poder instalarlo como aplicación tanto en el móvil como en el escritorio.</p>
+      <p>En el apartado de visión artificial, he desarrollado el <i>pipeline</i> de detección de personas con YOLO y lo he validado sobre vídeo real. He comparado además los distintos formatos de despliegue del modelo (PyTorch <code class="j-code">.pt</code>, ONNX, ONNX cuantizado a INT8 y NCNN) midiendo en cada uno el rendimiento y el consumo de CPU, y he llevado la detección a la propia Raspberry Pi ejecutándola con <b>NCNN</b>, el motor que mejores resultados da sobre su CPU ARM; el acelerador Hailo queda pendiente para una fase posterior. Cuando el sistema detecta a una persona, genera una alerta que se publica por MQTT con el mismo esquema <i>store-and-forward</i> que el resto de dominios, incluyendo la caja de la detección, la posición del dron y una foto del fotograma con las coordenadas y la marca temporal superpuestas. La grabación se inicia y se detiene de forma remota desde el panel: cada sesión genera su propio vídeo y, al terminar, publica un resumen con su duración, número de frames, rendimiento y detecciones. En paralelo, sigo ampliando el dataset con Roboflow, con las primeras imágenes ya capturadas para el entrenamiento.</p>
       <p>El repositorio del servidor se ha reorganizado por carpetas para separar las páginas web, el panel de control y la API, y se trabaja ahora sobre una rama <code class="j-code">develop</code> que mantiene la rama principal con la versión estable. El fallo de la tarjeta microSD que dejó temporalmente fuera de servicio a la Raspberry Pi está resuelto: se ha sustituido y repetido la instalación de la imagen, además de rehacer el script del receptor, que no estaba subido al repositorio. He puesto en marcha también la presencia web pública del proyecto: una landing de colaboración para captar vídeos aéreos y patrocinios, y una web técnica que documenta el sistema completo (arquitectura de comunicaciones, hardware, software y cloud, IA y marco del proyecto).</p>
-      <p><b>Próximos pasos:</b> ampliar el dataset de detección con muchas más imágenes aéreas para entrenar el modelo definitivo. En paralelo, ensamblar el dron definitivo e incorporar autenticación a la API y cifrado MQTT antes de conectar la cadena de mando a la aeronave real.</p>
+      <p>En el plano físico, he ensamblado el dron definitivo, que queda ya completamente construido y listo para pasar de la validación en simulación a las primeras pruebas de vuelo real.</p>
+      <p><b>Próximos pasos:</b> ampliar el dataset de detección con muchas más imágenes aéreas para entrenar el modelo definitivo, desplegar la detección sobre el acelerador Hailo para ganar rendimiento frente a la ejecución actual en CPU, e incorporar autenticación a la API y cifrado MQTT antes de conectar la cadena de mando a la aeronave real.</p>
     </div>
   </div>
 </section>
@@ -715,7 +716,7 @@
       </ul>
     </details>
 
-    <details class="j-phase" data-cats="sistema" open>
+    <details class="j-phase" data-cats="sistema">
       <summary class="j-phase-summary">
         <span class="j-date">17 agosto</span>
         <span class="j-tag j-tag--sistema">Sistema</span>
@@ -733,6 +734,90 @@
           </ul>
         </li>
         <li><b>Mejora futura:</b> un script en Python que vigile la cobertura 4G y desactive esa ruta si se cae. <span class="j-cost">PENDIENTE</span></li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema memoria">
+      <summary class="j-phase-summary">
+        <span class="j-date">18 agosto</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-tag j-tag--memoria">Memoria</span>
+        <span class="j-hito">★ Multi-dron verificado</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Sigo avanzando con la <b>página web de Guardian Eye</b>.</li>
+        <li>Clono de nuevo el repositorio de <i>edge companion</i> directamente en la <b>Raspberry Pi</b>, ya que últimamente lo estaba probando en local desde mi máquina. Tras el clonado compruebo que todo funciona correctamente.</li>
+        <li>Añado al <code class="j-code">requirements.txt</code> las dependencias necesarias para dejar el entorno completo.</li>
+        <li>Verifico la <b>ingesta de datos con varios drones</b>: ejecuto <code class="j-code">sistema.py</code> por separado en mi equipo y en la Pi, y confirmo que ambos flujos llegan bien a la base de datos, uno identificado como <code class="j-code">dron-01</code> y otro como <code class="j-code">dron-02</code>.</li>
+        <li>Cambio el nombre del <b>bucket de InfluxDB</b>, que al principio se llamaba <code class="j-code">sensores</code> y no había llegado a renombrar; ahora se llama <code class="j-code">telemetria</code>.</li>
+        <li>Retomo la teoría de la <b>VPN (Tailscale)</b> que configuré el día anterior y lo redacto en la memoria.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="hardware">
+      <summary class="j-phase-summary">
+        <span class="j-date">19 agosto</span>
+        <span class="j-tag j-tag--hardware">Hardware</span>
+        <span class="j-hito">★ Dron construido</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Dedico el día completo a la <b>construcción del dron</b>.</li>
+        <li>Termino el montaje: el <b>dron queda ya completamente construido</b>.</li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="ia sistema">
+      <summary class="j-phase-summary">
+        <span class="j-date">20 agosto</span>
+        <span class="j-tag j-tag--ia">IA</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-hito">★ Grabación por sesiones</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li><b>Estudio los formatos de despliegue del modelo</b> de cara a la Raspberry Pi: <code class="j-code">.pt</code> (pesos nativos de PyTorch, muy completos pero pesados), <code class="j-code">.onnx</code> (formato "puente" universal, más ligero de cargar), la versión <code class="j-code">.onnx</code> cuantizada a <b>INT8</b> (menor tamaño y, en teoría, más velocidad en CPU) y <code class="j-code">.ncnn</code> (motor optimizado para CPUs ARM como la de la Pi). Dejo también situado el <code class="j-code">.hef</code>, formato compilado exclusivo del <b>Hailo</b> que solo se puede generar en un PC Linux/x86_64 (a la Pi solo se manda el <code class="j-code">.hef</code> ya hecho).</li>
+        <li>Añado al repositorio una carpeta <code class="j-code">conversion/</code> con tres utilidades para regenerar cada formato a partir de <code class="j-code">weights/best.pt</code> siempre que reentrene: <code class="j-code">exportar_onnx.py</code>, <code class="j-code">cuantizar_onnx.py</code> y <code class="j-code">exportar_ncnn.py</code>.</li>
+        <li>Añado a <code class="j-code">deteccion.py</code> el parámetro <code class="j-code">--runtime</code> (<code class="j-code">pt</code> / <code class="j-code">onnx</code> / <code class="j-code">onnx-int8</code> / <code class="j-code">ncnn</code>) para elegir en cada ejecución con qué motor cargo el modelo, sin tocar el código.</li>
+        <li>Meto en el código un pequeño <b>benchmark</b> que, al terminar, imprime el total de frames procesados, la latencia media por frame y el rendimiento medio en FPS.
+          <ul class="j-sub">
+            <li>Pruebo todos los formatos sobre el vídeo de prueba (<code class="j-code">vuelo1</code>) y mido en cada uno rendimiento y consumo de CPU.</li>
+            <li><b>Resultados:</b> con <code class="j-code">.onnx</code> a pelo ronda los <b>5,4 FPS</b> pero la CPU se va casi al 98%. Con la versión <b>INT8</b> el consumo baja a la mitad pero el rendimiento no mejora (~5,1 FPS). Con <code class="j-code">.ncnn</code> saco claramente el mejor resultado: unos <b>8 FPS</b> de media y en torno a un 55% de CPU.</li>
+            <li>El motivo: he hecho <b>cuantización dinámica</b>, que apenas aporta porque solo cuantiza los pesos; para sacarle partido de verdad en CPU haría falta cuantización estática. El <b>Hailo</b> queda como vía INT8 por hardware dedicado, aparte. Me quedo con <b>NCNN</b>, el que mejores números da.</li>
+          </ul>
+        </li>
+        <li>Añado <b>grabación por sesiones</b> controlada desde la web:
+          <ul class="j-sub">
+            <li>En la web de control añado los botones de "<b>Empezar grabación</b>" y "<b>Parar grabación</b>", enlazados con el nodo <i>edge</i> por MQTT: hasta que no llega el <code class="j-code">start_recording</code>, <code class="j-code">deteccion.py</code> no arranca nada y se queda solo escuchando.</li>
+            <li>Cada sesión genera su propio vídeo con su propio <i>timestamp</i>.</li>
+            <li>Al terminar cada grabación se publica un <b>JSON de resumen</b> (<code class="j-code">dronsar/{dron_id}/video/resumen</code>) con la duración, el total de frames, el rendimiento (runtime, FPS y latencia) y las detecciones (alertas y confianza media).</li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+
+    <details class="j-phase" data-cats="sistema" open>
+      <summary class="j-phase-summary">
+        <span class="j-date">21 agosto</span>
+        <span class="j-tag j-tag--sistema">Sistema</span>
+        <span class="j-hito">★ Cierre de la programación</span>
+        <svg class="j-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </summary>
+      <ul class="j-tasks">
+        <li>Cambio el valor por defecto de <code class="j-code">--preview</code> a <code class="j-code">false</code> en <code class="j-code">deteccion.py</code>: en la Raspberry normalmente no habrá pantalla conectada, así que abrir una ventana no tiene sentido y puede fallar sin entorno gráfico. Se puede forzar a <code class="j-code">true</code> a mano el día que lo pruebe con un monitor.</li>
+        <li>Convierto la <b>web de control en una PWA</b> (manifest, service worker e iconos), para poder instalarla como app tanto en el móvil como en el escritorio.</li>
+        <li>Configuro la <b>cámara en la Pi</b>: la cámara CSI que tenía no me funciona, así que opto por una <b>cámara USB</b> que tenía en casa.</li>
+        <li>Monto <b>streaming en directo</b>:
+          <ul class="j-sub">
+            <li>Monto un servidor <b>MediaMTX</b> en la EC2; <code class="j-code">deteccion.py</code>, además de grabar el vídeo en local, lo emite en paralelo por <b>RTSP</b> (<code class="j-code">streaming.py</code>), y MediaMTX lo retransmite como <b>WebRTC</b> para verlo en el navegador. Va en baja resolución y es un extra que nunca tumba la detección: si falla el streaming, la grabación y las alertas siguen igual.</li>
+            <li>Primero lo sirvo por <b>HLS</b>, pero la latencia es demasiado alta; me paso a <b>WebRTC</b>, casi en tiempo real. Configuro MediaMTX con autenticación e indico la IP pública de la EC2 en <code class="j-code">webrtcAdditionalHosts</code>.</li>
+            <li>Monto <b>nginx</b> como <i>reverse proxy</i> con TLS (Certbot) en el subdominio <code class="j-code">stream.gorostiditfg.com</code>, dado de alta en Cloudflare, y abro únicamente el puerto <code class="j-code">8189/UDP</code> en el grupo de seguridad. La Raspberry publica por RTSP (<code class="j-code">8554</code>) a través de <b>Tailscale</b>, así que ese tramo va cifrado por la VPN sin exponer el RTSP a internet.</li>
+            <li>Dejo todo configurable por <code class="j-code">.env</code>, incluidos los parámetros del streaming (<code class="j-code">STREAM_HOST/USER/PASS/PATH</code>) y las carpetas <code class="j-code">VIDEOS_DIR</code>/<code class="j-code">FOTOS_DIR</code>.</li>
+          </ul>
+        </li>
+        <li>Añado en el panel de control una <b>pantallita de cámara en directo</b> (<i>iframe</i> WebRTC), junto a los botones de grabar. Quito el <code class="j-code">vuelo1.mp4</code> que estaba por defecto: ahora por defecto va siempre la cámara y el <i>runtime</i> queda en <code class="j-code">ncnn</code>. La pantalla se queda en negro hasta pulsar "Empezar grabación".</li>
+        <li><b>Doy por terminada toda mi parte de programación</b> (quedan mejoras posibles, pero de momento la doy por cerrada) y subo todo a <b>GitHub</b> para que quede guardado.</li>
       </ul>
     </details>
 
@@ -835,6 +920,20 @@
         <div class="j-week-tags">
           <span class="j-tag j-tag--sistema">Sistema</span>
           <span class="j-tag j-tag--memoria">Memoria</span>
+        </div>
+      </div>
+
+      <div class="j-week">
+        <div class="j-week-head">
+          <span class="j-week-title">Semana del 18 al 21 de agosto</span>
+          <span class="j-week-range">Semana 7</span>
+          <span class="j-week-count">4 registros</span>
+        </div>
+        <p>Semana de cierre de la parte de programación: se verifica la ingesta multi-dron de extremo a extremo (<code class="j-code">dron-01</code>/<code class="j-code">dron-02</code>) y se renombra el bucket de InfluxDB a <code class="j-code">telemetria</code>, se termina de construir el dron definitivo, y se compara a fondo el rendimiento de los formatos de despliegue del modelo (PyTorch, ONNX, ONNX INT8 y NCNN), quedándose con NCNN para la Raspberry Pi. Se añade grabación por sesiones controlada por MQTT desde el panel, con JSON de resumen al finalizar cada vídeo, y streaming en directo de la cámara vía MediaMTX y WebRTC sobre un subdominio propio con TLS. La web de control se convierte en PWA, se configura la cámara USB en la Pi, y se da por cerrada toda la parte de programación, quedando todo publicado en GitHub.</p>
+        <div class="j-week-tags">
+          <span class="j-tag j-tag--sistema">Sistema</span>
+          <span class="j-tag j-tag--hardware">Hardware</span>
+          <span class="j-tag j-tag--ia">IA</span>
         </div>
       </div>
 
